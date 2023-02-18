@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../viewmodel/category_notifier.dart';
-import '_pages/category_page.dart';
+import '_pages/category_list_page.dart';
 
 class TabInfo {
   TabInfo(this.label, this.widget);
@@ -168,7 +168,7 @@ class HomeScreen extends ConsumerWidget {
     for (var i = 0; i < bigCategoryState.length; i++) {
       tabs.add(TabInfo(
         bigCategoryState[i].category1,
-        CategoryPage(category1: bigCategoryState[i].category1),
+        CategoryListPage(category1: bigCategoryState[i].category1),
       ));
     }
   }

@@ -6,10 +6,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/category_notifier.dart';
 import '_parts/bunrui_dialog.dart';
-import 'bunrui_page.dart';
+import 'video_list_page.dart';
 
-class CategoryPage extends ConsumerWidget {
-  CategoryPage({super.key, required this.category1});
+class CategoryListPage extends ConsumerWidget {
+  CategoryListPage({super.key, required this.category1});
 
   final String category1;
 
@@ -109,7 +109,7 @@ class CategoryPage extends ConsumerWidget {
                       onTap: () {
                         BunruiDialog(
                           context: _context,
-                          widget: BunruiPage(
+                          widget: VideoListPage(
                             category2: element.category2,
                           ),
                         );
