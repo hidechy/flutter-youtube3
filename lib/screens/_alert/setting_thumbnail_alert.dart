@@ -1,13 +1,12 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
 import '../_parts/bunrui_dialog.dart';
 import 'setting_bunrui_alert.dart';
 
-class SettingThumbnailAlert extends ConsumerWidget {
+class SettingThumbnailAlert extends StatelessWidget {
   SettingThumbnailAlert(
       {super.key, required this.shitamiItems, required this.bunruiText});
 
@@ -19,7 +18,7 @@ class SettingThumbnailAlert extends ConsumerWidget {
 
   ///
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     _context = context;
 
     return AlertDialog(

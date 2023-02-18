@@ -34,15 +34,13 @@ class BigCategoryNotifier extends StateNotifier<List<Category>> {
         final category1 = value['data'][i]['category1'].toString();
 
         if (!getCategory.contains(category1)) {
-          if (value['data'][i]['bunrui'].toString() != '') {
-            list.add(
-              Category(
-                category1: value['data'][i]['category1'].toString(),
-                category2: value['data'][i]['category2'].toString(),
-                bunrui: value['data'][i]['bunrui'].toString(),
-              ),
-            );
-          }
+          list.add(
+            Category(
+              category1: value['data'][i]['category1'].toString(),
+              category2: value['data'][i]['category2'].toString(),
+              bunrui: value['data'][i]['bunrui'].toString(),
+            ),
+          );
         }
 
         getCategory.add(category1);

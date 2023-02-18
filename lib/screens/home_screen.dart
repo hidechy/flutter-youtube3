@@ -4,11 +4,11 @@ import 'package:drag_and_drop_lists/drag_and_drop_item.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:youtube3/screens/blank_bunrui_setting_screen.dart';
 
 import '../viewmodel/category_notifier.dart';
 import '../viewmodel/video_notifier.dart';
 import '_pages/category_list_page.dart';
+import 'blank_bunrui_setting_screen.dart';
 
 class TabInfo {
   TabInfo(this.label, this.widget);
@@ -22,6 +22,8 @@ class HomeScreen extends ConsumerWidget {
 
   List<TabInfo> tabs = [];
 
+  List<DragAndDropItem> ddItem = [];
+
   int selectedIndex = 0;
 
   late WidgetRef _ref;
@@ -31,9 +33,9 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
-    final blankVideoListState = ref.watch(blankVideoListProvider);
-
     makeBigCategoryTab();
+
+    makeDDItem();
 
     return DefaultTabController(
       length: tabs.length,
@@ -44,34 +46,19 @@ class HomeScreen extends ConsumerWidget {
           elevation: 0,
           title: const Text('Video Category'),
           centerTitle: true,
-          leading: (blankVideoListState.isNotEmpty)
-              ? GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          final list = <DragAndDropItem>[];
-                          final blankVideoListState =
-                              ref.watch(blankVideoListProvider);
-
-                          blankVideoListState.forEach((element) {
-                            final text =
-                                '${element.title} // ${element.youtubeId}';
-                            list.add(DragAndDropItem(child: Text(text)));
-                          });
-
-                          return BlankBunruiSettingScreen(list: list);
-                        },
-                      ),
-                    );
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return BlankBunruiSettingScreen(list: ddItem);
                   },
-                  child: const Icon(Icons.input),
-                )
-              : const Icon(
-                  Icons.check_box_outline_blank,
-                  color: Colors.transparent,
                 ),
+              );
+            },
+            child: const Icon(Icons.input),
+          ),
           actions: <Widget>[
             Container(
               margin: const EdgeInsets.only(top: 10),
@@ -195,10 +182,22 @@ class HomeScreen extends ConsumerWidget {
     final bigCategoryState = _ref.watch(bigCategoryProvider);
 
     for (var i = 0; i < bigCategoryState.length; i++) {
-      tabs.add(TabInfo(
-        bigCategoryState[i].category1,
-        CategoryListPage(category1: bigCategoryState[i].category1),
-      ));
+      if (bigCategoryState[i].category1 != '') {
+        tabs.add(TabInfo(
+          bigCategoryState[i].category1,
+          CategoryListPage(category1: bigCategoryState[i].category1),
+        ));
+      }
     }
+  }
+
+  ///
+  void makeDDItem() {
+    final blankVideoListState = _ref.watch(blankVideoListProvider);
+
+    blankVideoListState.forEach((element) {
+      final text = '${element.title} // ${element.youtubeId}';
+      ddItem.add(DragAndDropItem(child: Text(text)));
+    });
   }
 }
