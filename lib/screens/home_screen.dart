@@ -1,10 +1,13 @@
-// ignore_for_file: must_be_immutable, use_decorated_box
+// ignore_for_file: must_be_immutable, use_decorated_box, cascade_invocations
 
+import 'package:drag_and_drop_lists/drag_and_drop_item.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:youtube3/screens/blank_bunrui_setting_screen.dart';
 
 import '../viewmodel/category_notifier.dart';
+import '../viewmodel/video_notifier.dart';
 import '_pages/category_list_page.dart';
 
 class TabInfo {
@@ -28,6 +31,8 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
+    final blankVideoListState = ref.watch(blankVideoListProvider);
+
     makeBigCategoryTab();
 
     return DefaultTabController(
@@ -39,10 +44,34 @@ class HomeScreen extends ConsumerWidget {
           elevation: 0,
           title: const Text('Video Category'),
           centerTitle: true,
-          leading: const Icon(
-            Icons.check_box_outline_blank,
-            color: Colors.transparent,
-          ),
+          leading: (blankVideoListState.isNotEmpty)
+              ? GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          final list = <DragAndDropItem>[];
+                          final blankVideoListState =
+                              ref.watch(blankVideoListProvider);
+
+                          blankVideoListState.forEach((element) {
+                            final text =
+                                '${element.title} // ${element.youtubeId}';
+                            list.add(DragAndDropItem(child: Text(text)));
+                          });
+
+                          return BlankBunruiSettingScreen(list: list);
+                        },
+                      ),
+                    );
+                  },
+                  child: const Icon(Icons.input),
+                )
+              : const Icon(
+                  Icons.check_box_outline_blank,
+                  color: Colors.transparent,
+                ),
           actions: <Widget>[
             Container(
               margin: const EdgeInsets.only(top: 10),

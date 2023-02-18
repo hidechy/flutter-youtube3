@@ -47,6 +47,43 @@ class VideoListNotifier extends StateNotifier<List<Video>> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
+final blankVideoListProvider =
+    StateNotifierProvider.autoDispose<BlankVideoListNotifier, List<Video>>(
+        (ref) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return BlankVideoListNotifier([], client, utility)..getBlankVideoList();
+});
+
+class BlankVideoListNotifier extends StateNotifier<List<Video>> {
+  BlankVideoListNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getBlankVideoList() async {
+    await client.post(
+      path: APIPath.getYoutubeList,
+      body: {'bunrui': 'blank'},
+    ).then((value) {
+      final list = <Video>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(Video.fromJson(value['data'][i] as Map<String, dynamic>));
+      }
+
+      state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
 final videoManipulateProvider =
     StateNotifierProvider.autoDispose<VideoManipulateNotifier, int>((ref) {
   final client = ref.read(httpClientProvider);
@@ -68,7 +105,20 @@ class VideoManipulateNotifier extends StateNotifier<int> {
 
   ///
   Future<void> videoManipulate({required String flag}) async {
-    print(appParamState.youtubeIdList);
+    final list = <String>[];
+    appParamState.youtubeIdList.forEach((element) {
+      list.add("'$element'");
+    });
+
+    await client
+        .post(
+          path: APIPath.bunruiYoutubeData,
+          body: {'bunrui': flag, 'youtube_id': list.join(',')},
+        )
+        .then((value) {})
+        .catchError((error, _) {
+          utility.showError('予期せぬエラーが発生しました');
+        });
   }
 }
 

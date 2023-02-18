@@ -3,10 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../state/app_param/app_param_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/category_notifier.dart';
-import '_parts/bunrui_dialog.dart';
-import 'video_list_page.dart';
+import '../../viewmodel/video_notifier.dart';
+import '../_alert/video_list_alert.dart';
+import '../_parts/bunrui_dialog.dart';
 
 class CategoryListPage extends ConsumerWidget {
   CategoryListPage({super.key, required this.category1});
@@ -47,10 +49,14 @@ class CategoryListPage extends ConsumerWidget {
 
     final smallCategoryState = _ref.watch(smallCategoryProvider(category1));
 
+    final firstBunrui = <String, String>{};
+
     final getCategory = <String>[];
 
     smallCategoryState.forEach((element) {
       if (!getCategory.contains(element.category2)) {
+        firstBunrui[element.category2] = element.bunrui;
+
         list.add(
           Stack(
             children: [
@@ -107,9 +113,17 @@ class CategoryListPage extends ConsumerWidget {
                     ),
                     GestureDetector(
                       onTap: () {
+                        _ref.watch(appParamProvider.notifier).setSelectedBunrui(
+                              category2: element.category2,
+                              bunrui: firstBunrui[element.category2]!,
+                            );
+
+                        _ref.watch(videoListProvider.notifier).getVideoList(
+                            bunrui: firstBunrui[element.category2]!);
+
                         BunruiDialog(
                           context: _context,
-                          widget: VideoListPage(
+                          widget: VideoListAlert(
                             category2: element.category2,
                           ),
                         );

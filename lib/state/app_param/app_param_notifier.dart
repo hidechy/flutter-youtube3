@@ -35,6 +35,11 @@ class AppParamNotifier extends StateNotifier<AppParamState> {
       state = state.copyWith(youtubeIdList: youtubeIdList);
     }
   }
+
+  ///
+  Future<void> clearYoutubeIdList() async {
+    state = state.copyWith(youtubeIdList: []);
+  }
 }
 
 ////////////////////////////////////////////////

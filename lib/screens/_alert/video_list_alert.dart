@@ -2,17 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/app_param/app_param_notifier.dart';
 import '../../viewmodel/category_notifier.dart';
 import '../../viewmodel/video_notifier.dart';
-import '_parts/video_list_item.dart';
+import '../_parts/video_list_item.dart';
 
-class VideoListPage extends ConsumerWidget {
-  VideoListPage({super.key, required this.category2});
+class VideoListAlert extends ConsumerWidget {
+  VideoListAlert({super.key, required this.category2});
 
   final String category2;
+
+  Uuid uuid = const Uuid();
 
   late WidgetRef _ref;
 
@@ -130,6 +133,7 @@ class VideoListPage extends ConsumerWidget {
     });
 
     return SingleChildScrollView(
+      key: PageStorageKey(uuid.v1()),
       child: Column(children: list),
     );
   }
@@ -144,31 +148,56 @@ class VideoListPage extends ConsumerWidget {
           children: [
             ChoiceChip(
               selected: true,
-              label: const Text('選出変更'),
+              label: const Text('選出'),
               selectedColor: Colors.redAccent.withOpacity(0.3),
-              onSelected: (bool isSelected) {},
+              onSelected: (bool isSelected) async {
+                await _ref
+                    .watch(videoManipulateProvider.notifier)
+                    .videoManipulate(flag: 'special');
+
+                await videoListReload();
+              },
             ),
             const SizedBox(width: 10),
             ChoiceChip(
               selected: true,
               label: const Text('分類消去'),
               selectedColor: Colors.redAccent.withOpacity(0.3),
-              onSelected: (bool isSelected) {},
+              onSelected: (bool isSelected) async {
+                await _ref
+                    .watch(videoManipulateProvider.notifier)
+                    .videoManipulate(flag: 'erase');
+
+                await videoListReload();
+              },
             ),
             const SizedBox(width: 10),
             ChoiceChip(
               selected: true,
               label: const Text('削除'),
               selectedColor: Colors.redAccent.withOpacity(0.3),
-              onSelected: (bool isSelected) {
-                _ref
+              onSelected: (bool isSelected) async {
+                await _ref
                     .watch(videoManipulateProvider.notifier)
                     .videoManipulate(flag: 'delete');
+
+                await videoListReload();
               },
             ),
           ],
         ),
       ],
     );
+  }
+
+  ///
+  Future<void> videoListReload() async {
+    final appParamState = _ref.watch(appParamProvider);
+
+    await _ref.watch(appParamProvider.notifier).clearYoutubeIdList();
+
+    await _ref
+        .watch(videoListProvider.notifier)
+        .getVideoList(bunrui: appParamState.selectedBunrui.split('|')[1]);
   }
 }

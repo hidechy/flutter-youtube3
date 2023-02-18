@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../models/video.dart';
-import '../../../state/app_param/app_param_notifier.dart';
+import '../../models/video.dart';
+import '../../state/app_param/app_param_notifier.dart';
 
 class VideoListItem extends ConsumerWidget {
   VideoListItem(
