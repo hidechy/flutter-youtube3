@@ -1,11 +1,13 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:youtube3/state/app_param/app_param_state.dart';
 
 import '../data/http/client.dart';
 import '../data/http/path.dart';
 import '../extensions/extensions.dart';
 import '../models/video.dart';
+import '../state/app_param/app_param_notifier.dart';
 import '../utility/utility.dart';
 
 ////////////////////////////////////////////////
@@ -39,6 +41,34 @@ class VideoListNotifier extends StateNotifier<List<Video>> {
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+final videoManipulateProvider =
+    StateNotifierProvider.autoDispose<VideoManipulateNotifier, int>((ref) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  final appParamState = ref.watch(appParamProvider);
+
+  return VideoManipulateNotifier(0, client, utility, appParamState);
+});
+
+class VideoManipulateNotifier extends StateNotifier<int> {
+  VideoManipulateNotifier(
+      super.state, this.client, this.utility, this.appParamState);
+
+  final HttpClient client;
+  final Utility utility;
+  final AppParamState appParamState;
+
+  ///
+  Future<void> videoManipulate({required String flag}) async {
+    print(appParamState.youtubeIdList);
   }
 }
 

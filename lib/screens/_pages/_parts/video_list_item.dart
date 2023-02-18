@@ -76,6 +76,8 @@ class VideoListItem extends ConsumerWidget {
                         placeholder: 'assets/images/no_image.png',
                         image:
                             'https://img.youtube.com/vi/${data.youtubeId}/mqdefault.jpg',
+                        imageErrorBuilder: (c, o, s) =>
+                            Image.asset('assets/images/no_image.png'),
                       ),
                     ),
                     Expanded(

@@ -39,7 +39,8 @@ class VideoListPage extends ConsumerWidget {
               Container(width: context.screenSize.width),
               Text(category2),
               displayBunrui(),
-              const SizedBox(height: 20),
+              manipulateButton(),
+              const SizedBox(height: 10),
               Expanded(
                 child: displayVideoList(),
               ),
@@ -69,7 +70,7 @@ class VideoListPage extends ConsumerWidget {
             ),
             color:
                 (appParamState.selectedBunrui == '$category2|${element.bunrui}')
-                    ? Colors.yellowAccent.withOpacity(0.3)
+                    ? Colors.redAccent.withOpacity(0.3)
                     : null,
           ),
           child: GestureDetector(
@@ -130,6 +131,44 @@ class VideoListPage extends ConsumerWidget {
 
     return SingleChildScrollView(
       child: Column(children: list),
+    );
+  }
+
+  ///
+  Widget manipulateButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(),
+        Row(
+          children: [
+            ChoiceChip(
+              selected: true,
+              label: const Text('選出変更'),
+              selectedColor: Colors.redAccent.withOpacity(0.3),
+              onSelected: (bool isSelected) {},
+            ),
+            const SizedBox(width: 10),
+            ChoiceChip(
+              selected: true,
+              label: const Text('分類消去'),
+              selectedColor: Colors.redAccent.withOpacity(0.3),
+              onSelected: (bool isSelected) {},
+            ),
+            const SizedBox(width: 10),
+            ChoiceChip(
+              selected: true,
+              label: const Text('削除'),
+              selectedColor: Colors.redAccent.withOpacity(0.3),
+              onSelected: (bool isSelected) {
+                _ref
+                    .watch(videoManipulateProvider.notifier)
+                    .videoManipulate(flag: 'delete');
+              },
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
