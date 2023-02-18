@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../utility/utility.dart';
+import '_alert/setting_thumbnail_alert.dart';
+import '_parts/bunrui_dialog.dart';
 
 class BlankBunruiSettingScreen extends StatefulWidget {
   const BlankBunruiSettingScreen({super.key, required this.list});
@@ -88,17 +90,7 @@ class _BlankBunruiSettingScreenState extends State<BlankBunruiSettingScreen> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.redAccent.withOpacity(0.3),
                           ),
-                          onPressed: () {
-                            dispBunruiItem();
-                            //
-                            // ref
-                            //     .watch(videoSearchProvider.notifier)
-                            //     .getVideoData();
-                            //
-                            // backHomeScreen(context: _context);
-                            //
-                            //
-                          },
+                          onPressed: dispBunruiItem,
                           child: const Text('分類する'),
                         ),
                       );
@@ -129,7 +121,7 @@ class _BlankBunruiSettingScreenState extends State<BlankBunruiSettingScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.redAccent.withOpacity(0.3),
                   ),
-                  onPressed: () => displayThumbnail(),
+                  onPressed: displayThumbnail,
                   child: const Text('サムネイル表示'),
                 ),
               ),
@@ -196,8 +188,6 @@ class _BlankBunruiSettingScreenState extends State<BlankBunruiSettingScreen> {
           }
         }
       }
-
-      print(bunruiItems);
     }
   }
 
@@ -238,26 +228,12 @@ class _BlankBunruiSettingScreenState extends State<BlankBunruiSettingScreen> {
       }
     }
 
-    //
-    //
-    // showDialog(
-    //   context: context,
-    //   builder: (_) {
-    //     return Dialog(
-    //       backgroundColor: Colors.blueGrey.withOpacity(0.3),
-    //       shape: RoundedRectangleBorder(
-    //         borderRadius: BorderRadius.circular(30),
-    //       ),
-    //       insetPadding: const EdgeInsets.all(30),
-    //       child: ThumbnailAlert(
-    //         shitamiItems: shitamiItems,
-    //         bunruiList: _bunruiList,
-    //         bunruiText: bunruiText,
-    //       ),
-    //     );
-    //   },
-    // );
-    //
-    //
+    BunruiDialog(
+      context: context,
+      widget: SettingThumbnailAlert(
+        shitamiItems: shitamiItems,
+        bunruiText: bunruiText,
+      ),
+    );
   }
 }

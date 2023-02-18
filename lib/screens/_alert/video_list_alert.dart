@@ -44,9 +44,7 @@ class VideoListAlert extends ConsumerWidget {
               displayBunrui(),
               manipulateButton(),
               const SizedBox(height: 10),
-              Expanded(
-                child: displayVideoList(),
-              ),
+              Expanded(child: displayVideoList()),
             ],
           ),
         ),
