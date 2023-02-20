@@ -120,6 +120,42 @@ class VideoHistoryStateNotifier extends StateNotifier<List<Video>> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
+
+final specialVideoProvider =
+    StateNotifierProvider.autoDispose<SpecialVideoStateNotifier, List<Video>>(
+        (ref) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return SpecialVideoStateNotifier([], client, utility)..getSpecialVideo();
+});
+
+class SpecialVideoStateNotifier extends StateNotifier<List<Video>> {
+  SpecialVideoStateNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  ///
+  Future<void> getSpecialVideo() async {
+    await client.post(path: APIPath.getSpecialVideo).then((value) {
+      final list = <Video>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(Video.fromJson(value['data'][i] as Map<String, dynamic>));
+      }
+
+      state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
 final videoManipulateProvider =
     StateNotifierProvider.autoDispose<VideoManipulateNotifier, int>((ref) {
   final client = ref.read(httpClientProvider);

@@ -4,6 +4,8 @@ import 'package:drag_and_drop_lists/drag_and_drop_item.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:youtube3/screens/_alert/special_video_alert.dart';
+import 'package:youtube3/screens/_parts/bunrui_dialog.dart';
 import 'package:youtube3/screens/calendar_get_screen.dart';
 import 'package:youtube3/screens/calendar_publish_screen.dart';
 
@@ -157,10 +159,12 @@ class HomeScreen extends ConsumerWidget {
             ),
             IconButton(
               icon: const Icon(Icons.star),
-              onPressed: () {},
-              // onPressed: () {
-              //   Navigator.pushNamed(context, '/special');
-              // },
+              onPressed: () {
+                BunruiDialog(
+                  context: context,
+                  widget: SpecialVideoAlert(),
+                );
+              },
             ),
             IconButton(
               icon: const Icon(Icons.arrow_downward),
@@ -178,12 +182,12 @@ class HomeScreen extends ConsumerWidget {
             ),
             IconButton(
               icon: const Icon(Icons.refresh, color: Colors.yellowAccent),
-              onPressed: () {},
-//               onPressed: () {
-// //                videoSearchViewModel.getVideoData();
-//
-//                 Navigator.pushNamed(context, '/');
-//               },
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                );
+              },
             ),
           ],
         ),
@@ -197,10 +201,12 @@ class HomeScreen extends ConsumerWidget {
 
     for (var i = 0; i < bigCategoryState.length; i++) {
       if (bigCategoryState[i].category1 != '') {
-        tabs.add(TabInfo(
-          bigCategoryState[i].category1,
-          CategoryListPage(category1: bigCategoryState[i].category1),
-        ));
+        if (bigCategoryState[i].category1 != 'null') {
+          tabs.add(TabInfo(
+            bigCategoryState[i].category1,
+            CategoryListPage(category1: bigCategoryState[i].category1),
+          ));
+        }
       }
     }
   }
