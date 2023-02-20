@@ -24,6 +24,11 @@ class SettingCategoryNotifier extends StateNotifier<SettingCategoryState> {
 
   Future<void> setInputedCategory2({required String value}) async =>
       state = state.copyWith(inputedCategory2: value);
+
+  ///
+  Future<void> inputCategory() async {
+    print(state);
+  }
 }
 
 ////////////////////////////////////////////////

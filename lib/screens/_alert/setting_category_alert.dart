@@ -29,6 +29,8 @@ class SettingCategoryAlert extends ConsumerWidget {
 
     makeCategoryList();
 
+    final settingCategoryState = ref.watch(settingCategoryProvider);
+
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
@@ -76,6 +78,7 @@ class SettingCategoryAlert extends ConsumerWidget {
                         color: Colors.blueAccent.withOpacity(0.1),
                       ),
                       child: DropdownButton(
+                        value: settingCategoryState.selectedCategory1,
                         icon: const Visibility(
                           visible: false,
                           child: Icon(Icons.arrow_drop_down),
@@ -147,6 +150,7 @@ class SettingCategoryAlert extends ConsumerWidget {
                         color: Colors.blueAccent.withOpacity(0.1),
                       ),
                       child: DropdownButton(
+                        value: settingCategoryState.selectedCategory2,
                         icon: const Visibility(
                           visible: false,
                           child: Icon(Icons.arrow_drop_down),
@@ -188,6 +192,20 @@ class SettingCategoryAlert extends ConsumerWidget {
                   ],
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  IconButton(
+                    onPressed: () {
+                      ref
+                          .watch(settingCategoryProvider.notifier)
+                          .inputCategory();
+                    },
+                    icon: const Icon(Icons.input),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -204,8 +222,8 @@ class SettingCategoryAlert extends ConsumerWidget {
 
   ///
   void makeCategoryList() {
-    category1List = [];
-    category2List = [];
+    category1List = [''];
+    category2List = [''];
 
     final bigCategoryState = _ref.watch(bigCategoryProvider);
 
