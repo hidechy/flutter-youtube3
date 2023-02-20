@@ -63,109 +63,113 @@ class VideoListItem extends ConsumerWidget {
         ),
         Container(
           padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SingleChildScrollView(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 180,
-                      child: FadeInImage.assetNetwork(
-                        placeholder: 'assets/images/no_image.png',
-                        image:
-                            'https://img.youtube.com/vi/${data.youtubeId}/mqdefault.jpg',
-                        imageErrorBuilder: (c, o, s) =>
-                            Image.asset('assets/images/no_image.png'),
+          child: DefaultTextStyle(
+            style: const TextStyle(fontSize: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SingleChildScrollView(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 180,
+                        child: FadeInImage.assetNetwork(
+                          placeholder: 'assets/images/no_image.png',
+                          image:
+                              'https://img.youtube.com/vi/${data.youtubeId}/mqdefault.jpg',
+                          imageErrorBuilder: (c, o, s) =>
+                              Image.asset('assets/images/no_image.png'),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(left: 8),
-                            child: (data.special == '1')
-                                ? const Icon(
-                                    Icons.star,
-                                    color: Colors.greenAccent,
-                                  )
-                                : Icon(
-                                    Icons.check_box_outline_blank,
-                                    color: Colors.black.withOpacity(0.2),
-                                  ),
-                          ),
-                          linkDisplay
-                              ? Container(
-                                  alignment: Alignment.topRight,
-                                  child: MouseRegion(
-                                    cursor: SystemMouseCursors.click,
-                                    child: Row(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            _ref
-                                                .watch(
-                                                    appParamProvider.notifier)
-                                                .setYoutubeIdList(
-                                                    youtubeId: data.youtubeId);
-                                          },
-                                          child:
-                                              const Icon(Icons.control_point),
-                                        ),
-                                        const SizedBox(width: 20),
-                                        GestureDetector(
-                                          onTap: () => _openBrowser(
-                                              youtubeId: data.youtubeId),
-                                          child: const Icon(Icons.link),
-                                        ),
-                                      ],
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: (data.special == '1')
+                                  ? const Icon(
+                                      Icons.star,
+                                      color: Colors.greenAccent,
+                                    )
+                                  : Icon(
+                                      Icons.check_box_outline_blank,
+                                      color: Colors.black.withOpacity(0.2),
                                     ),
-                                  ),
-                                )
-                              : Container(),
-                        ],
+                            ),
+                            linkDisplay
+                                ? Container(
+                                    alignment: Alignment.topRight,
+                                    child: MouseRegion(
+                                      cursor: SystemMouseCursors.click,
+                                      child: Row(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              _ref
+                                                  .watch(
+                                                      appParamProvider.notifier)
+                                                  .setYoutubeIdList(
+                                                      youtubeId:
+                                                          data.youtubeId);
+                                            },
+                                            child:
+                                                const Icon(Icons.control_point),
+                                          ),
+                                          const SizedBox(width: 20),
+                                          GestureDetector(
+                                            onTap: () => _openBrowser(
+                                                youtubeId: data.youtubeId),
+                                            child: const Icon(Icons.link),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(data.title),
-              const SizedBox(height: 5),
-              Text.rich(
-                TextSpan(children: [
-                  TextSpan(text: data.youtubeId),
-                  const TextSpan(text: ' / '),
-                  TextSpan(
-                    text: data.playtime,
-                    style: const TextStyle(color: Colors.yellowAccent),
+                    ],
                   ),
-                ]),
-              ),
-              const SizedBox(height: 5),
-              Container(
-                alignment: Alignment.topRight,
-                child: Text(data.channelTitle),
-              ),
-              const SizedBox(height: 5),
-              Container(
-                alignment: Alignment.topRight,
-                child: Text.rich(
+                ),
+                const SizedBox(height: 10),
+                Text(data.title),
+                const SizedBox(height: 5),
+                Text.rich(
                   TextSpan(children: [
-                    TextSpan(text: '$year-$month-$day'),
+                    TextSpan(text: data.youtubeId),
                     const TextSpan(text: ' / '),
                     TextSpan(
-                      text: data.pubdate,
-                      style: const TextStyle(
-                        color: Colors.yellowAccent,
-                      ),
+                      text: data.playtime,
+                      style: const TextStyle(color: Colors.yellowAccent),
                     ),
                   ]),
                 ),
-              ),
-            ],
+                const SizedBox(height: 5),
+                Container(
+                  alignment: Alignment.topRight,
+                  child: Text(data.channelTitle),
+                ),
+                const SizedBox(height: 5),
+                Container(
+                  alignment: Alignment.topRight,
+                  child: Text.rich(
+                    TextSpan(children: [
+                      TextSpan(text: '$year-$month-$day'),
+                      const TextSpan(text: ' / '),
+                      TextSpan(
+                        text: data.pubdate,
+                        style: const TextStyle(
+                          color: Colors.yellowAccent,
+                        ),
+                      ),
+                    ]),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],

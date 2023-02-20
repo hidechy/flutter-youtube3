@@ -5,7 +5,11 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:youtube3/extensions/extensions.dart';
+import 'package:youtube3/screens/_alert/calendar_video_alert.dart';
+import 'package:youtube3/screens/_parts/bunrui_dialog.dart';
 
+import '../models/video.dart';
 import '../utility/utility.dart';
 import '../viewmodel/video_notifier.dart';
 
@@ -21,11 +25,13 @@ class CalendarGetScreen extends ConsumerWidget {
     return key.day * 1000000 + key.month * 10000 + key.year;
   }
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
 
     final focusDayState = ref.watch(focusDayProvider);
@@ -34,17 +40,15 @@ class CalendarGetScreen extends ConsumerWidget {
 
     //--------------------------------------------- event
     var keepYmd = '';
-    for (var i = 0; i < videoHistoryState.length; i++) {
-      final exGetDate = videoHistoryState[i].getdate.split(' ');
 
+    videoHistoryState.forEach((element) {
+      final exGetDate = element.getdate.split(' ');
       if (exGetDate[0] != keepYmd) {
         eventsList[DateTime.parse(exGetDate[0])] = [];
       }
-
       eventsList[DateTime.parse(exGetDate[0])]?.add(exGetDate[0]);
-
       keepYmd = exGetDate[0];
-    }
+    });
 
     final events = LinkedHashMap<DateTime, List<dynamic>>(
       equals: isSameDay,
@@ -65,7 +69,19 @@ class CalendarGetScreen extends ConsumerWidget {
           ///////////// calendar
           Column(
             children: [
-              const SizedBox(height: 40),
+              const SizedBox(height: 50),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.close),
+                  ),
+                ],
+              ),
               TableCalendar(
                 eventLoader: getEventForDay,
 
@@ -114,11 +130,6 @@ class CalendarGetScreen extends ConsumerWidget {
                 onDaySelected: (selectedDay, focusedDay) {
                   onDayPressed(date: selectedDay);
                 },
-
-                ///
-                onPageChanged: (focusedDay) {
-                  onPageMoved(date: focusedDay);
-                },
               ),
             ],
           ),
@@ -132,11 +143,37 @@ class CalendarGetScreen extends ConsumerWidget {
   void onDayPressed({required DateTime date}) {
     _ref.watch(blueBallProvider.notifier).setDateTime(dateTime: date);
     _ref.watch(focusDayProvider.notifier).setDateTime(dateTime: date);
-  }
 
-  ///
-  void onPageMoved({required DateTime date}) {
-    _ref.watch(focusDayProvider.notifier).setDateTime(dateTime: date);
+    final videoHistoryState = _ref.watch(videoHistoryProvider);
+
+    final thisDateData = <Video>[];
+    videoHistoryState.forEach((element) {
+      if (date.yyyymmdd.replaceAll('-', '') == element.getdate) {
+        thisDateData.add(element);
+      }
+    });
+
+    if (thisDateData.isEmpty) {
+      final snackBar = SnackBar(
+        content: const Text(
+          'No Data.',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.blueAccent.withOpacity(0.3),
+        duration: const Duration(milliseconds: 500),
+      );
+      ScaffoldMessenger.of(_context).showSnackBar(snackBar);
+      return;
+    }
+
+    BunruiDialog(
+      context: _context,
+      widget: CalendarVideoAlert(
+        thisDateData: thisDateData,
+        date: date.yyyymmdd,
+        pubget: 'get',
+      ),
+    );
   }
 }
 
