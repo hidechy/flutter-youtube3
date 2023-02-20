@@ -113,7 +113,10 @@ class VideoManipulateNotifier extends StateNotifier<int> {
     await client
         .post(
           path: APIPath.bunruiYoutubeData,
-          body: {'bunrui': flag, 'youtube_id': list.join(',')},
+          body: {
+            'bunrui': flag,
+            'youtube_id': list.join(','),
+          },
         )
         .then((value) {})
         .catchError((error, _) {

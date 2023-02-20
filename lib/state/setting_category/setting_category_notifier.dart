@@ -28,6 +28,22 @@ class SettingCategoryNotifier extends StateNotifier<SettingCategoryState> {
   ///
   Future<void> inputCategory() async {
     print(state);
+
+/*
+    flutter: SettingCategoryState(selectedCategory1: entertainment, inputedCategory1: , selectedCategory2: entertainment, inputedCategory2: )
+*/
+
+    var cate1 = (state.selectedCategory1 != '')
+        ? state.selectedCategory1
+        : state.inputedCategory1;
+
+    var cate2 = (state.selectedCategory2 != '')
+        ? state.selectedCategory2
+        : state.inputedCategory2;
+
+    if (cate1 == '' || cate2 == '') {
+      state = state.copyWith(errorStr: 'category no set');
+    }
   }
 }
 

@@ -1,24 +1,27 @@
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:youtube3/state/app_param/app_param_notifier.dart';
 
 import '../utility/utility.dart';
+import '../viewmodel/video_notifier.dart';
 import '_alert/bunrui_list_alert.dart';
 import '_alert/setting_thumbnail_alert.dart';
 import '_parts/bunrui_dialog.dart';
 
-class BlankBunruiSettingScreen extends StatefulWidget {
+class BlankBunruiSettingScreen extends ConsumerStatefulWidget {
   const BlankBunruiSettingScreen({super.key, required this.list});
 
   final List<DragAndDropItem> list;
 
   ///
   @override
-  State<BlankBunruiSettingScreen> createState() =>
+  ConsumerState<BlankBunruiSettingScreen> createState() =>
       _BlankBunruiSettingScreenState();
 }
 
-class _BlankBunruiSettingScreenState extends State<BlankBunruiSettingScreen> {
+class _BlankBunruiSettingScreenState
+    extends ConsumerState<BlankBunruiSettingScreen> {
   final Utility _utility = Utility();
 
   TextEditingController bunruiText = TextEditingController();
@@ -197,11 +200,25 @@ class _BlankBunruiSettingScreenState extends State<BlankBunruiSettingScreen> {
 
             if (item != '-----') {
               final exItem = item.split(' // ');
-              bunruiItems.add("'${exItem[1]}'");
+              bunruiItems.add(exItem[1]);
             }
           }
         }
       }
+    }
+
+    if (bunruiItems.isNotEmpty) {
+      bunruiItems.forEach((element) {
+        ref
+            .watch(appParamProvider.notifier)
+            .setYoutubeIdList(youtubeId: element);
+
+        ref
+            .watch(videoManipulateProvider.notifier)
+            .videoManipulate(flag: bunruiText.text);
+      });
+
+      Navigator.pop(context);
     }
   }
 

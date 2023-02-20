@@ -193,6 +193,8 @@ class HomeScreen extends ConsumerWidget {
 
   ///
   void makeDDItem() {
+    ddItem = [];
+
     final blankVideoListState = _ref.watch(blankVideoListProvider);
 
     blankVideoListState.forEach((element) {

@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SettingCategoryState {
+  String get errorStr => throw _privateConstructorUsedError;
   String get selectedCategory1 => throw _privateConstructorUsedError;
   String get inputedCategory1 => throw _privateConstructorUsedError;
   String get selectedCategory2 => throw _privateConstructorUsedError;
@@ -33,7 +34,8 @@ abstract class $SettingCategoryStateCopyWith<$Res> {
       _$SettingCategoryStateCopyWithImpl<$Res, SettingCategoryState>;
   @useResult
   $Res call(
-      {String selectedCategory1,
+      {String errorStr,
+      String selectedCategory1,
       String inputedCategory1,
       String selectedCategory2,
       String inputedCategory2});
@@ -53,12 +55,17 @@ class _$SettingCategoryStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? errorStr = null,
     Object? selectedCategory1 = null,
     Object? inputedCategory1 = null,
     Object? selectedCategory2 = null,
     Object? inputedCategory2 = null,
   }) {
     return _then(_value.copyWith(
+      errorStr: null == errorStr
+          ? _value.errorStr
+          : errorStr // ignore: cast_nullable_to_non_nullable
+              as String,
       selectedCategory1: null == selectedCategory1
           ? _value.selectedCategory1
           : selectedCategory1 // ignore: cast_nullable_to_non_nullable
@@ -88,7 +95,8 @@ abstract class _$$_SettingCategoryStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String selectedCategory1,
+      {String errorStr,
+      String selectedCategory1,
       String inputedCategory1,
       String selectedCategory2,
       String inputedCategory2});
@@ -105,12 +113,17 @@ class __$$_SettingCategoryStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? errorStr = null,
     Object? selectedCategory1 = null,
     Object? inputedCategory1 = null,
     Object? selectedCategory2 = null,
     Object? inputedCategory2 = null,
   }) {
     return _then(_$_SettingCategoryState(
+      errorStr: null == errorStr
+          ? _value.errorStr
+          : errorStr // ignore: cast_nullable_to_non_nullable
+              as String,
       selectedCategory1: null == selectedCategory1
           ? _value.selectedCategory1
           : selectedCategory1 // ignore: cast_nullable_to_non_nullable
@@ -135,11 +148,15 @@ class __$$_SettingCategoryStateCopyWithImpl<$Res>
 
 class _$_SettingCategoryState implements _SettingCategoryState {
   const _$_SettingCategoryState(
-      {this.selectedCategory1 = '',
+      {this.errorStr = '',
+      this.selectedCategory1 = '',
       this.inputedCategory1 = '',
       this.selectedCategory2 = '',
       this.inputedCategory2 = ''});
 
+  @override
+  @JsonKey()
+  final String errorStr;
   @override
   @JsonKey()
   final String selectedCategory1;
@@ -155,7 +172,7 @@ class _$_SettingCategoryState implements _SettingCategoryState {
 
   @override
   String toString() {
-    return 'SettingCategoryState(selectedCategory1: $selectedCategory1, inputedCategory1: $inputedCategory1, selectedCategory2: $selectedCategory2, inputedCategory2: $inputedCategory2)';
+    return 'SettingCategoryState(errorStr: $errorStr, selectedCategory1: $selectedCategory1, inputedCategory1: $inputedCategory1, selectedCategory2: $selectedCategory2, inputedCategory2: $inputedCategory2)';
   }
 
   @override
@@ -163,6 +180,8 @@ class _$_SettingCategoryState implements _SettingCategoryState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SettingCategoryState &&
+            (identical(other.errorStr, errorStr) ||
+                other.errorStr == errorStr) &&
             (identical(other.selectedCategory1, selectedCategory1) ||
                 other.selectedCategory1 == selectedCategory1) &&
             (identical(other.inputedCategory1, inputedCategory1) ||
@@ -174,7 +193,7 @@ class _$_SettingCategoryState implements _SettingCategoryState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, selectedCategory1,
+  int get hashCode => Object.hash(runtimeType, errorStr, selectedCategory1,
       inputedCategory1, selectedCategory2, inputedCategory2);
 
   @JsonKey(ignore: true)
@@ -187,11 +206,14 @@ class _$_SettingCategoryState implements _SettingCategoryState {
 
 abstract class _SettingCategoryState implements SettingCategoryState {
   const factory _SettingCategoryState(
-      {final String selectedCategory1,
+      {final String errorStr,
+      final String selectedCategory1,
       final String inputedCategory1,
       final String selectedCategory2,
       final String inputedCategory2}) = _$_SettingCategoryState;
 
+  @override
+  String get errorStr;
   @override
   String get selectedCategory1;
   @override

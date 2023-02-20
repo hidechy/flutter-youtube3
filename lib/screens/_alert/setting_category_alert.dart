@@ -195,7 +195,12 @@ class SettingCategoryAlert extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(),
+                  Container(
+                    child: Text(
+                      settingCategoryState.errorStr,
+                      style: TextStyle(color: Colors.yellowAccent),
+                    ),
+                  ),
                   IconButton(
                     onPressed: () {
                       ref

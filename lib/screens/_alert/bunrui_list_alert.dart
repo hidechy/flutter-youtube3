@@ -63,7 +63,9 @@ class BunruiListAlert extends ConsumerWidget {
 
       smallCategoryState.forEach((element2) {
         if (!keepBunrui.contains(element2.bunrui)) {
-          bunruiList.add(element2);
+          if (element2.bunrui != '') {
+            bunruiList.add(element2);
+          }
         }
 
         keepBunrui.add(element2.bunrui);
