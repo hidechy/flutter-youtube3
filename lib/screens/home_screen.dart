@@ -126,7 +126,7 @@ class HomeScreen extends ConsumerWidget {
           ),
           bottom: TabBar(
             isScrollable: true,
-            indicatorColor: Colors.redAccent,
+            indicatorColor: Colors.blueAccent,
             tabs: tabs.map((TabInfo tab) {
               return Tab(text: tab.label);
             }).toList(),
@@ -142,9 +142,9 @@ class HomeScreen extends ConsumerWidget {
         //
 
         floatingActionButton: FabCircularMenu(
-          ringColor: Colors.redAccent.withOpacity(0.3),
-          fabOpenColor: Colors.redAccent.withOpacity(0.3),
-          fabCloseColor: Colors.pinkAccent.withOpacity(0.3),
+          ringColor: Colors.blueAccent.withOpacity(0.3),
+          fabOpenColor: Colors.blueAccent.withOpacity(0.3),
+          fabCloseColor: Colors.blueAccent.withOpacity(0.3),
           ringWidth: 10,
           ringDiameter: 250,
           children: <Widget>[

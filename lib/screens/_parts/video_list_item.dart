@@ -40,7 +40,7 @@ class VideoListItem extends ConsumerWidget {
               shape: BoxShape.circle,
               border: Border.all(
                 width: 10,
-                color: Colors.redAccent.withOpacity(0.3),
+                color: Colors.blueAccent.withOpacity(0.3),
               ),
               color: Colors.transparent,
             ),
@@ -55,7 +55,7 @@ class VideoListItem extends ConsumerWidget {
               shape: BoxShape.circle,
               border: Border.all(
                 width: 10,
-                color: Colors.redAccent.withOpacity(0.3),
+                color: Colors.blueAccent.withOpacity(0.3),
               ),
               color: Colors.transparent,
             ),

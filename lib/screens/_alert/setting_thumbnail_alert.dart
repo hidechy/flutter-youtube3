@@ -28,7 +28,7 @@ class SettingThumbnailAlert extends StatelessWidget {
       insetPadding: EdgeInsets.zero,
       title: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.redAccent.withOpacity(0.3),
+          backgroundColor: Colors.blueAccent.withOpacity(0.3),
         ),
         onPressed: displayBunruiName,
         child: const Text('分類名表示'),

@@ -71,7 +71,7 @@ class VideoListAlert extends ConsumerWidget {
             ),
             color:
                 (appParamState.selectedBunrui == '$category2|${element.bunrui}')
-                    ? Colors.redAccent.withOpacity(0.3)
+                    ? Colors.blueAccent.withOpacity(0.3)
                     : null,
           ),
           child: GestureDetector(
@@ -147,7 +147,7 @@ class VideoListAlert extends ConsumerWidget {
             ChoiceChip(
               selected: true,
               label: const Text('選出'),
-              selectedColor: Colors.redAccent.withOpacity(0.3),
+              selectedColor: Colors.blueAccent.withOpacity(0.3),
               onSelected: (bool isSelected) async {
                 await _ref
                     .watch(videoManipulateProvider.notifier)
@@ -160,7 +160,7 @@ class VideoListAlert extends ConsumerWidget {
             ChoiceChip(
               selected: true,
               label: const Text('分類消去'),
-              selectedColor: Colors.redAccent.withOpacity(0.3),
+              selectedColor: Colors.blueAccent.withOpacity(0.3),
               onSelected: (bool isSelected) async {
                 await _ref
                     .watch(videoManipulateProvider.notifier)
@@ -173,7 +173,7 @@ class VideoListAlert extends ConsumerWidget {
             ChoiceChip(
               selected: true,
               label: const Text('削除'),
-              selectedColor: Colors.redAccent.withOpacity(0.3),
+              selectedColor: Colors.blueAccent.withOpacity(0.3),
               onSelected: (bool isSelected) async {
                 await _ref
                     .watch(videoManipulateProvider.notifier)

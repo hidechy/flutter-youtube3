@@ -110,7 +110,7 @@ class _BlankBunruiSettingScreenState
                         width: 100,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.redAccent.withOpacity(0.3),
+                            backgroundColor: Colors.blueAccent.withOpacity(0.3),
                           ),
                           onPressed: dispBunruiItem,
                           child: const Text('分類する'),
@@ -141,7 +141,7 @@ class _BlankBunruiSettingScreenState
                 margin: const EdgeInsets.all(10),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.redAccent.withOpacity(0.3),
+                    backgroundColor: Colors.blueAccent.withOpacity(0.3),
                   ),
                   onPressed: displayThumbnail,
                   child: const Text('サムネイル表示'),

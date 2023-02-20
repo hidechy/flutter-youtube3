@@ -69,7 +69,7 @@ class CategoryListPage extends ConsumerWidget {
                     shape: BoxShape.circle,
                     border: Border.all(
                       width: 5,
-                      color: Colors.redAccent.withOpacity(0.5),
+                      color: Colors.blueAccent.withOpacity(0.5),
                     ),
                     color: Colors.transparent,
                   ),
@@ -87,7 +87,7 @@ class CategoryListPage extends ConsumerWidget {
                     shape: BoxShape.circle,
                     border: Border.all(
                       width: 5,
-                      color: Colors.redAccent.withOpacity(0.5),
+                      color: Colors.blueAccent.withOpacity(0.5),
                     ),
                     color: Colors.transparent,
                   ),
