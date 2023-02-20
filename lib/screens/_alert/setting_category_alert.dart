@@ -2,17 +2,21 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:youtube3/state/setting_category/setting_category_notifier.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/category.dart';
 import '../../viewmodel/category_notifier.dart';
 
 class SettingCategoryAlert extends ConsumerWidget {
-  SettingCategoryAlert({super.key});
+  SettingCategoryAlert({super.key, required this.category});
 
-  List<Category> blankCategoryList = [];
+  final Category category;
+
   List<String> category1List = [];
   List<String> category2List = [];
+
+  List<TextEditingController> tecs = [];
 
   late WidgetRef _ref;
 
@@ -21,11 +25,9 @@ class SettingCategoryAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
+    makeTecs();
+
     makeCategoryList();
-
-    print(category1List);
-
-    print(category2List);
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -43,12 +45,161 @@ class SettingCategoryAlert extends ConsumerWidget {
             children: [
               const SizedBox(height: 20),
               Container(width: context.screenSize.width),
-//              Expanded(child: displayBlankCategory()),
+              Text(category.bunrui),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white.withOpacity(0.8)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('カテゴリー1'),
+                    Divider(
+                      color: Colors.white.withOpacity(0.3),
+                      thickness: 2,
+                    ),
+                    Row(
+                      children: [
+                        const Expanded(child: Text('現在')),
+                        Expanded(flex: 2, child: Text(category.category1)),
+                      ],
+                    ),
+                    Divider(
+                      color: Colors.white.withOpacity(0.3),
+                      thickness: 2,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.blueAccent.withOpacity(0.1),
+                      ),
+                      child: DropdownButton(
+                        icon: const Visibility(
+                          visible: false,
+                          child: Icon(Icons.arrow_drop_down),
+                        ),
+                        items: category1List.map((val) {
+                          return DropdownMenuItem(
+                            value: val,
+                            child: Text(val),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          ref
+                              .watch(settingCategoryProvider.notifier)
+                              .setSelectedCategory1(value: value!);
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: tecs[0],
+                        decoration: const InputDecoration(
+                          filled: true,
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 4,
+                            horizontal: 4,
+                          ),
+                        ),
+                        style: const TextStyle(fontSize: 12),
+                        onChanged: (value) {
+                          ref
+                              .watch(settingCategoryProvider.notifier)
+                              .setInputedCategory1(value: value);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white.withOpacity(0.8)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('カテゴリー2'),
+                    Divider(
+                      color: Colors.white.withOpacity(0.3),
+                      thickness: 2,
+                    ),
+                    Row(
+                      children: [
+                        const Expanded(child: Text('現在')),
+                        Expanded(flex: 2, child: Text(category.category2)),
+                      ],
+                    ),
+                    Divider(
+                      color: Colors.white.withOpacity(0.3),
+                      thickness: 2,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.blueAccent.withOpacity(0.1),
+                      ),
+                      child: DropdownButton(
+                        icon: const Visibility(
+                          visible: false,
+                          child: Icon(Icons.arrow_drop_down),
+                        ),
+                        items: category2List.map((val) {
+                          return DropdownMenuItem(
+                            value: val,
+                            child: Text(val),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          ref
+                              .watch(settingCategoryProvider.notifier)
+                              .setSelectedCategory2(value: value!);
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: tecs[1],
+                        decoration: const InputDecoration(
+                          filled: true,
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 4,
+                            horizontal: 4,
+                          ),
+                        ),
+                        style: const TextStyle(fontSize: 12),
+                        onChanged: (value) {
+                          ref
+                              .watch(settingCategoryProvider.notifier)
+                              .setInputedCategory2(value: value);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  ///
+  void makeTecs() {
+    for (var i = 0; i < 2; i++) {
+      tecs.add(TextEditingController(text: ''));
+    }
   }
 
   ///
@@ -61,12 +212,12 @@ class SettingCategoryAlert extends ConsumerWidget {
     final keepCategory2 = <String>[];
 
     bigCategoryState.forEach((element) {
+      //---// category1
       if (element.category1 != '') {
         category1List.add(element.category1);
-      } else {
-        blankCategoryList.add(element);
       }
 
+      //---// category2
       final smallCategoryState =
           _ref.watch(smallCategoryProvider(element.category1));
 

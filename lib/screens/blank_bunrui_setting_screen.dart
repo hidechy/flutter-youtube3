@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../utility/utility.dart';
-import '_alert/setting_category_alert.dart';
+import '_alert/bunrui_list_alert.dart';
 import '_alert/setting_thumbnail_alert.dart';
 import '_parts/bunrui_dialog.dart';
 
@@ -72,7 +72,7 @@ class _BlankBunruiSettingScreenState extends State<BlankBunruiSettingScreen> {
                         onPressed: () {
                           BunruiDialog(
                             context: context,
-                            widget: SettingCategoryAlert(),
+                            widget: BunruiListAlert(),
                           );
                         },
                         icon: const Icon(Icons.list),
