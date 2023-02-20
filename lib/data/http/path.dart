@@ -1,6 +1,7 @@
 enum APIPath {
   bunruiYoutubeData,
   updateVideoPlayedAt,
+  updateYoutubeCategoryTree,
   getYoutubeCategoryTree,
   getYoutubeList,
   getSpecialVideo,
@@ -14,6 +15,9 @@ extension APIPathExtension on APIPath {
         return 'bunruiYoutubeData';
       case APIPath.updateVideoPlayedAt:
         return 'updateVideoPlayedAt';
+
+      case APIPath.updateYoutubeCategoryTree:
+        return 'updateYoutubeCategoryTree';
 
       case APIPath.getYoutubeCategoryTree:
         return 'getYoutubeCategoryTree';

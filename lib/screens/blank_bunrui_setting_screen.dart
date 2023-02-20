@@ -1,6 +1,7 @@
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:youtube3/screens/home_screen.dart';
 import 'package:youtube3/state/app_param/app_param_notifier.dart';
 
 import '../utility/utility.dart';
@@ -82,7 +83,11 @@ class _BlankBunruiSettingScreenState
                       ),
                       IconButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()),
+                          );
                         },
                         icon: const Icon(Icons.close),
                       ),
