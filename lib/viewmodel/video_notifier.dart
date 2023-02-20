@@ -84,6 +84,42 @@ class BlankVideoListNotifier extends StateNotifier<List<Video>> {
 ////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
+
+final videoHistoryProvider =
+    StateNotifierProvider.autoDispose<VideoHistoryStateNotifier, List<Video>>(
+        (ref) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return VideoHistoryStateNotifier([], client, utility)..getVideoData();
+});
+
+class VideoHistoryStateNotifier extends StateNotifier<List<Video>> {
+  VideoHistoryStateNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  ///
+  Future<void> getVideoData() async {
+    await client.post(path: APIPath.getYoutubeList).then((value) {
+      final list = <Video>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(Video.fromJson(value['data'][i] as Map<String, dynamic>));
+      }
+
+      state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
 final videoManipulateProvider =
     StateNotifierProvider.autoDispose<VideoManipulateNotifier, int>((ref) {
   final client = ref.read(httpClientProvider);

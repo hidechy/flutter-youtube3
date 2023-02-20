@@ -4,6 +4,8 @@ import 'package:drag_and_drop_lists/drag_and_drop_item.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:youtube3/screens/calendar_get_screen.dart';
+import 'package:youtube3/screens/calendar_publish_screen.dart';
 
 import '../viewmodel/category_notifier.dart';
 import '../viewmodel/video_notifier.dart';
@@ -65,7 +67,13 @@ class HomeScreen extends ConsumerWidget {
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CalendarGetScreen()),
+                      );
+                    },
                     child: SizedBox(
                       width: 60,
                       child: Column(
@@ -77,7 +85,13 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CalendarPublishScreen()),
+                      );
+                    },
                     child: SizedBox(
                       width: 60,
                       child: Column(
