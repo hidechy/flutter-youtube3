@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:youtube3/extensions/extensions.dart';
 import 'package:youtube3/screens/_parts/video_list_item.dart';
@@ -54,6 +56,21 @@ class CalendarVideoAlert extends StatelessWidget {
       list.add(
         Column(
           children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(3),
+              decoration: BoxDecoration(
+                color: Colors.yellowAccent.withOpacity(0.1),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(''),
+                  const Text(''),
+                  Text(element.bunrui.toString()),
+                ],
+              ),
+            ),
             VideoListItem(
               data: element,
               listAddDisplay: false,

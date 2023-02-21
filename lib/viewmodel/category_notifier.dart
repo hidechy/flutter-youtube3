@@ -33,6 +33,7 @@ class BigCategoryNotifier extends StateNotifier<List<Category>> {
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         final category1 = value['data'][i]['category1'].toString();
 
+        //---
         if (!getCategory.contains(category1)) {
           list.add(
             Category(
@@ -77,6 +78,7 @@ class SmallCategoryNotifier extends StateNotifier<List<Category>> {
       final list = <Category>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        //---
         if (category1 == value['data'][i]['category1']) {
           list.add(
             Category(
@@ -118,6 +120,7 @@ class BunruiNotifier extends StateNotifier<List<Category>> {
       final list = <Category>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        //---
         if (category2 == value['data'][i]['category2']) {
           list.add(
             Category(
@@ -130,6 +133,44 @@ class BunruiNotifier extends StateNotifier<List<Category>> {
       }
 
       state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+
+final bunruiMapProvider = StateNotifierProvider.autoDispose<BunruiMapNotifier,
+    Map<String, Map<String, String>>>((ref) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return BunruiMapNotifier({}, client, utility)..getBunruiMap();
+});
+
+class BunruiMapNotifier
+    extends StateNotifier<Map<String, Map<String, String>>> {
+  BunruiMapNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getBunruiMap() async {
+    await client.post(path: APIPath.getYoutubeCategoryTree).then((value) {
+      final map = <String, Map<String, String>>{};
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        final bunrui = value['data'][i]['bunrui'].toString();
+        final category1 = value['data'][i]['category1'].toString();
+        final category2 = value['data'][i]['category2'].toString();
+        map[bunrui] = {'category1': category1, 'category2': category2};
+      }
+
+      state = map;
     }).catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
