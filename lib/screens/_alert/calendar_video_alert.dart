@@ -56,7 +56,7 @@ class CalendarVideoAlert extends StatelessWidget {
           children: [
             VideoListItem(
               data: element,
-              listAddDisplay: true,
+              listAddDisplay: false,
               linkDisplay: true,
             ),
             const Divider(color: Colors.white),
