@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:youtube3/screens/_alert/setting_category_alert.dart';
-import 'package:youtube3/screens/_parts/bunrui_dialog.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/category.dart';
 import '../../viewmodel/category_notifier.dart';
+import '../_parts/bunrui_dialog.dart';
+import 'setting_category_alert.dart';
 
 class BunruiListAlert extends ConsumerWidget {
   BunruiListAlert({super.key});
@@ -22,8 +22,6 @@ class BunruiListAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _context = context;
     _ref = ref;
-
-    makeCategoryList();
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -50,34 +48,19 @@ class BunruiListAlert extends ConsumerWidget {
   }
 
   ///
-  void makeCategoryList() {
-    bunruiList = [];
-
-    final bigCategoryState = _ref.watch(bigCategoryProvider);
-
-    final keepBunrui = <String>[];
-
-    bigCategoryState.forEach((element) {
-      final smallCategoryState =
-          _ref.watch(smallCategoryProvider(element.category1));
-
-      smallCategoryState.forEach((element2) {
-        if (!keepBunrui.contains(element2.bunrui)) {
-          if (element2.bunrui != '') {
-            bunruiList.add(element2);
-          }
-        }
-
-        keepBunrui.add(element2.bunrui);
-      });
-    });
-  }
-
-  ///
   Widget displayCategoryList() {
     final list = <Widget>[];
 
-    bunruiList.forEach((element) {
+    final bunruiMapState = _ref.watch(bunruiMapProvider);
+
+    bunruiMapState.forEach((key, value) {
+      final category1 = value['category1'];
+      final category2 = value['category2'];
+
+      final color = (category1 == 'null')
+          ? Colors.blueAccent.withOpacity(0.1)
+          : Colors.transparent;
+
       list.add(
         Container(
           padding: const EdgeInsets.all(10),
@@ -88,6 +71,7 @@ class BunruiListAlert extends ConsumerWidget {
                 color: Colors.white.withOpacity(0.3),
               ),
             ),
+            color: color,
           ),
           child: Row(
             children: [
@@ -98,19 +82,19 @@ class BunruiListAlert extends ConsumerWidget {
                     Row(
                       children: [
                         const Expanded(child: Text('カテゴリー1')),
-                        Expanded(flex: 2, child: Text(element.category1)),
+                        Expanded(flex: 2, child: Text(category1!)),
                       ],
                     ),
                     Row(
                       children: [
                         const Expanded(child: Text('カテゴリー2')),
-                        Expanded(flex: 2, child: Text(element.category2)),
+                        Expanded(flex: 2, child: Text(category2!)),
                       ],
                     ),
                     Row(
                       children: [
                         const Expanded(child: Text('分類')),
-                        Expanded(flex: 2, child: Text(element.bunrui)),
+                        Expanded(flex: 2, child: Text(key)),
                       ],
                     ),
                   ],
@@ -120,7 +104,13 @@ class BunruiListAlert extends ConsumerWidget {
                 onPressed: () {
                   BunruiDialog(
                     context: _context,
-                    widget: SettingCategoryAlert(category: element),
+                    widget: SettingCategoryAlert(
+                      category: Category(
+                        category1: category1,
+                        category2: category2,
+                        bunrui: key,
+                      ),
+                    ),
                   );
                 },
                 icon: Icon(

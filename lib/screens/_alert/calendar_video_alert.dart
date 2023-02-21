@@ -1,13 +1,18 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:youtube3/extensions/extensions.dart';
-import 'package:youtube3/screens/_parts/video_list_item.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../extensions/extensions.dart';
+import '../../models/category.dart';
 import '../../models/video.dart';
+import '../../viewmodel/category_notifier.dart';
+import '../_parts/bunrui_dialog.dart';
+import '../_parts/video_list_item.dart';
+import 'setting_category_alert.dart';
 
-class CalendarVideoAlert extends StatelessWidget {
-  const CalendarVideoAlert(
+class CalendarVideoAlert extends ConsumerWidget {
+  CalendarVideoAlert(
       {super.key,
       required this.thisDateData,
       required this.date,
@@ -17,9 +22,15 @@ class CalendarVideoAlert extends StatelessWidget {
   final String date;
   final String pubget;
 
+  late BuildContext _context;
+  late WidgetRef _ref;
+
   ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
+    _ref = ref;
+
     return AlertDialog(
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.zero,
@@ -52,29 +63,58 @@ class CalendarVideoAlert extends StatelessWidget {
   Widget displayDateData() {
     final list = <Widget>[];
 
+    final bunruiMapState = _ref.watch(bunruiMapProvider);
+
     thisDateData.forEach((element) {
+      final category1 = bunruiMapState[element.bunrui.toString()]?['category1'];
+      final category2 = bunruiMapState[element.bunrui.toString()]?['category2'];
+
       list.add(
         Column(
           children: [
+            VideoListItem(
+              data: element,
+              listAddDisplay: false,
+              linkDisplay: true,
+            ),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(3),
               decoration: BoxDecoration(
                 color: Colors.yellowAccent.withOpacity(0.1),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
                 children: [
-                  const Text(''),
-                  const Text(''),
-                  Text(element.bunrui.toString()),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(category1!),
+                        Text(category2!),
+                        Text(element.bunrui.toString()),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      BunruiDialog(
+                        context: _context,
+                        widget: SettingCategoryAlert(
+                          category: Category(
+                            category1: category1,
+                            category2: category2,
+                            bunrui: element.bunrui.toString(),
+                          ),
+                        ),
+                      );
+                    },
+                    icon: Icon(
+                      Icons.info,
+                      color: Colors.white.withOpacity(0.6),
+                    ),
+                  ),
                 ],
               ),
-            ),
-            VideoListItem(
-              data: element,
-              listAddDisplay: false,
-              linkDisplay: true,
             ),
             const Divider(color: Colors.white),
           ],
