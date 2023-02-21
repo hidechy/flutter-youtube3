@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:youtube3/models/special_video.dart';
 import 'package:youtube3/state/app_param/app_param_state.dart';
 
 import '../data/http/client.dart';
@@ -9,6 +10,16 @@ import '../extensions/extensions.dart';
 import '../models/video.dart';
 import '../state/app_param/app_param_notifier.dart';
 import '../utility/utility.dart';
+
+/*
+videoListProvider       List<Video>
+blankVideoListProvider        List<Video>
+videoHistoryProvider        List<Video>
+
+specialVideoProvider        List<SpecialVideo>
+
+videoManipulateProvider       int
+*/
 
 ////////////////////////////////////////////////
 final videoListProvider =
@@ -121,9 +132,8 @@ class VideoHistoryStateNotifier extends StateNotifier<List<Video>> {
 
 ////////////////////////////////////////////////
 
-final specialVideoProvider =
-    StateNotifierProvider.autoDispose<SpecialVideoStateNotifier, List<Video>>(
-        (ref) {
+final specialVideoProvider = StateNotifierProvider.autoDispose<
+    SpecialVideoStateNotifier, List<SpecialVideo>>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -131,7 +141,7 @@ final specialVideoProvider =
   return SpecialVideoStateNotifier([], client, utility)..getSpecialVideo();
 });
 
-class SpecialVideoStateNotifier extends StateNotifier<List<Video>> {
+class SpecialVideoStateNotifier extends StateNotifier<List<SpecialVideo>> {
   SpecialVideoStateNotifier(super.state, this.client, this.utility);
 
   final HttpClient client;
@@ -140,10 +150,23 @@ class SpecialVideoStateNotifier extends StateNotifier<List<Video>> {
   ///
   Future<void> getSpecialVideo() async {
     await client.post(path: APIPath.getSpecialVideo).then((value) {
-      final list = <Video>[];
-
+      final list = <SpecialVideo>[];
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        list.add(Video.fromJson(value['data'][i] as Map<String, dynamic>));
+        final list2 = <Video>[];
+        for (var j = 0;
+            j < value['data'][i]['item'].length.toString().toInt();
+            j++) {
+          list2.add(Video.fromJson(
+              value['data'][i]['item'][j] as Map<String, dynamic>));
+        }
+
+        list.add(
+          SpecialVideo(
+            bunrui: value['data'][i]['bunrui'].toString(),
+            count: value['data'][i]['count'].toString().toInt(),
+            item: list2,
+          ),
+        );
       }
 
       state = list;

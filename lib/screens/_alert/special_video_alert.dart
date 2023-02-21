@@ -1,16 +1,13 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, cascade_invocations
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
-import '../../models/video.dart';
 import '../../viewmodel/video_notifier.dart';
 
 class SpecialVideoAlert extends ConsumerWidget {
   SpecialVideoAlert({super.key});
-
-  Map<String, List<Video>> orderedSpecialVideoMap = {};
 
   late WidgetRef _ref;
 
@@ -49,6 +46,16 @@ class SpecialVideoAlert extends ConsumerWidget {
     final list = <Widget>[];
 
     final specialVideoState = _ref.watch(specialVideoProvider);
+
+    specialVideoState.forEach((element) {
+      list.add(Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(element.bunrui),
+          Text(element.count.toString()),
+        ],
+      ));
+    });
 
     return SingleChildScrollView(
       child: Column(
