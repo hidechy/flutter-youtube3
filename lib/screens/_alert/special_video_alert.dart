@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:youtube3/screens/_parts/video_list_item.dart';
 
 import '../../extensions/extensions.dart';
 import '../../viewmodel/video_notifier.dart';
@@ -48,12 +49,21 @@ class SpecialVideoAlert extends ConsumerWidget {
     final specialVideoState = _ref.watch(specialVideoProvider);
 
     specialVideoState.forEach((element) {
-      list.add(Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(element.bunrui),
-          Text(element.count.toString()),
-        ],
+      list.add(ExpansionTile(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(element.bunrui),
+            Text(element.count.toString()),
+          ],
+        ),
+        children: element.item.map((val) {
+          return VideoListItem(
+            data: val,
+            listAddDisplay: false,
+            linkDisplay: true,
+          );
+        }).toList(),
       ));
     });
 
