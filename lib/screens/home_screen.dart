@@ -10,7 +10,6 @@ import 'package:youtube3/screens/calendar_get_screen.dart';
 import 'package:youtube3/screens/calendar_publish_screen.dart';
 
 import '../viewmodel/category_notifier.dart';
-import '../viewmodel/video_notifier.dart';
 import '_pages/category_list_page.dart';
 import 'blank_bunrui_setting_screen.dart';
 
@@ -39,8 +38,6 @@ class HomeScreen extends ConsumerWidget {
 
     makeBigCategoryTab();
 
-    makeDDItem();
-
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
@@ -55,10 +52,7 @@ class HomeScreen extends ConsumerWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) {
-                    return BlankBunruiSettingScreen(list: ddItem);
-                  },
-                ),
+                    builder: (context) => const BlankBunruiSettingScreen()),
               );
             },
             child: const Icon(Icons.input),
@@ -209,17 +203,5 @@ class HomeScreen extends ConsumerWidget {
         }
       }
     }
-  }
-
-  ///
-  void makeDDItem() {
-    ddItem = [];
-
-    final blankVideoListState = _ref.watch(blankVideoListProvider);
-
-    blankVideoListState.forEach((element) {
-      final text = '${element.title} // ${element.youtubeId}';
-      ddItem.add(DragAndDropItem(child: Text(text)));
-    });
   }
 }

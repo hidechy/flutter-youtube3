@@ -75,7 +75,7 @@ class SettingCategoryAlert extends ConsumerWidget {
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: Colors.blueAccent.withOpacity(0.1),
+                        color: Colors.blueAccent.withOpacity(0.2),
                       ),
                       child: DropdownButton(
                         value: settingCategoryState.selectedCategory1,
@@ -147,7 +147,7 @@ class SettingCategoryAlert extends ConsumerWidget {
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: Colors.blueAccent.withOpacity(0.1),
+                        color: Colors.blueAccent.withOpacity(0.2),
                       ),
                       child: DropdownButton(
                         value: settingCategoryState.selectedCategory2,

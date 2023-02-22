@@ -1,20 +1,20 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:youtube3/models/special_video.dart';
-import 'package:youtube3/state/app_param/app_param_state.dart';
 
 import '../data/http/client.dart';
 import '../data/http/path.dart';
 import '../extensions/extensions.dart';
+import '../models/special_video.dart';
 import '../models/video.dart';
 import '../state/app_param/app_param_notifier.dart';
+import '../state/app_param/app_param_state.dart';
 import '../utility/utility.dart';
 
 /*
 videoListProvider       List<Video>
-blankVideoListProvider        List<Video>
 videoHistoryProvider        List<Video>
+blankBunruiVideoProvider        List<Video>
 
 specialVideoProvider        List<SpecialVideo>
 
@@ -41,43 +41,6 @@ class VideoListNotifier extends StateNotifier<List<Video>> {
     await client.post(
       path: APIPath.getYoutubeList,
       body: {'bunrui': bunrui},
-    ).then((value) {
-      final list = <Video>[];
-
-      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
-        list.add(Video.fromJson(value['data'][i] as Map<String, dynamic>));
-      }
-
-      state = list;
-    }).catchError((error, _) {
-      utility.showError('予期せぬエラーが発生しました');
-    });
-  }
-}
-
-////////////////////////////////////////////////
-
-////////////////////////////////////////////////
-final blankVideoListProvider =
-    StateNotifierProvider.autoDispose<BlankVideoListNotifier, List<Video>>(
-        (ref) {
-  final client = ref.read(httpClientProvider);
-
-  final utility = Utility();
-
-  return BlankVideoListNotifier([], client, utility)..getBlankVideoList();
-});
-
-class BlankVideoListNotifier extends StateNotifier<List<Video>> {
-  BlankVideoListNotifier(super.state, this.client, this.utility);
-
-  final HttpClient client;
-  final Utility utility;
-
-  Future<void> getBlankVideoList() async {
-    await client.post(
-      path: APIPath.getYoutubeList,
-      body: {'bunrui': 'blank'},
     ).then((value) {
       final list = <Video>[];
 
@@ -130,6 +93,42 @@ class VideoHistoryStateNotifier extends StateNotifier<List<Video>> {
 
 ////////////////////////////////////////////////
 
+////////////////////////////////////////////////
+
+final blankBunruiVideoProvider = StateNotifierProvider.autoDispose<
+    BlankBunruiVideoStateNotifier, List<Video>>((ref) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return BlankBunruiVideoStateNotifier([], client, utility)
+    ..getBlankBunruiVideo();
+});
+
+class BlankBunruiVideoStateNotifier extends StateNotifier<List<Video>> {
+  BlankBunruiVideoStateNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> getBlankBunruiVideo() async {
+    await client.post(path: APIPath.getBlankBunruiVideo).then((value) {
+      final list = <Video>[];
+
+      for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
+        list.add(Video.fromJson(value['data'][i] as Map<String, dynamic>));
+      }
+
+      state = list;
+    }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+/// special
 ////////////////////////////////////////////////
 
 final specialVideoProvider = StateNotifierProvider.autoDispose<

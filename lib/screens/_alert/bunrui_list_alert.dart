@@ -57,8 +57,8 @@ class BunruiListAlert extends ConsumerWidget {
       final category1 = value['category1'];
       final category2 = value['category2'];
 
-      final color = (category1 == 'null')
-          ? Colors.blueAccent.withOpacity(0.1)
+      final color = (category1 == 'null' || key == '')
+          ? Colors.blueAccent.withOpacity(0.2)
           : Colors.transparent;
 
       list.add(

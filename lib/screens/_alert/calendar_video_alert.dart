@@ -89,9 +89,11 @@ class CalendarVideoAlert extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(category1!),
-                        Text(category2!),
-                        Text(element.bunrui.toString()),
+                        Text(category1 ?? ''),
+                        Text(category2 ?? ''),
+                        Text((element.bunrui != '')
+                            ? element.bunrui.toString()
+                            : ''),
                       ],
                     ),
                   ),
@@ -101,8 +103,8 @@ class CalendarVideoAlert extends ConsumerWidget {
                         context: _context,
                         widget: SettingCategoryAlert(
                           category: Category(
-                            category1: category1,
-                            category2: category2,
+                            category1: category1 ?? '',
+                            category2: category2 ?? '',
                             bunrui: element.bunrui.toString(),
                           ),
                         ),

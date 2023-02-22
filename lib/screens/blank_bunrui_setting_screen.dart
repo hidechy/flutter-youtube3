@@ -11,9 +11,7 @@ import '_alert/setting_thumbnail_alert.dart';
 import '_parts/bunrui_dialog.dart';
 
 class BlankBunruiSettingScreen extends ConsumerStatefulWidget {
-  const BlankBunruiSettingScreen({super.key, required this.list});
-
-  final List<DragAndDropItem> list;
+  const BlankBunruiSettingScreen({super.key});
 
   ///
   @override
@@ -35,29 +33,9 @@ class _BlankBunruiSettingScreenState
 
   ///
   @override
-  void initState() {
-    super.initState();
-
-    contents
-      ..add(
-        DragAndDropList(
-          header: const Text('LIST_UP'),
-          children: <DragAndDropItem>[
-            DragAndDropItem(child: const Text('-----'))
-          ],
-        ),
-      )
-      ..add(
-        DragAndDropList(
-          header: const Text('ALL'),
-          children: widget.list,
-        ),
-      );
-  }
-
-  ///
-  @override
   Widget build(BuildContext context) {
+    makeDefaultContents();
+
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -152,6 +130,32 @@ class _BlankBunruiSettingScreenState
         ],
       ),
     );
+  }
+
+  ///
+  void makeDefaultContents() {
+    contents = [];
+
+    final blankBunruiVideoState = ref.watch(blankBunruiVideoProvider);
+
+    final ddItem = <DragAndDropItem>[];
+    blankBunruiVideoState.forEach((element) {
+      final text = '${element.title} // ${element.youtubeId}';
+      ddItem.add(DragAndDropItem(child: Text(text)));
+    });
+
+    contents
+      ..add(
+        DragAndDropList(
+          header: const Text('LIST_UP'),
+          children: <DragAndDropItem>[
+            DragAndDropItem(child: const Text('-----'))
+          ],
+        ),
+      )
+      ..add(
+        DragAndDropList(header: const Text('ALL'), children: ddItem),
+      );
   }
 
   ///
