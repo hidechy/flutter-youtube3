@@ -102,6 +102,7 @@ class SettingCategoryAlert extends ConsumerWidget {
                           );
                         }).toList(),
                         onChanged: (value) {
+                          /// notifier 選択されたcategory1をセット
                           ref
                               .watch(settingCategoryProvider.notifier)
                               .setSelectedCategory1(value: value!);
@@ -123,6 +124,7 @@ class SettingCategoryAlert extends ConsumerWidget {
                         ),
                         style: const TextStyle(fontSize: 12),
                         onChanged: (value) {
+                          /// notifier 入力されたcategory1をセット
                           ref
                               .watch(settingCategoryProvider.notifier)
                               .setInputedCategory1(value: value);
@@ -174,6 +176,7 @@ class SettingCategoryAlert extends ConsumerWidget {
                           );
                         }).toList(),
                         onChanged: (value) {
+                          /// notifier 選択されたcategory2をセット
                           ref
                               .watch(settingCategoryProvider.notifier)
                               .setSelectedCategory2(value: value!);
@@ -195,6 +198,7 @@ class SettingCategoryAlert extends ConsumerWidget {
                         ),
                         style: const TextStyle(fontSize: 12),
                         onChanged: (value) {
+                          /// notifier 入力されたcategory2をセット
                           ref
                               .watch(settingCategoryProvider.notifier)
                               .setInputedCategory2(value: value);
@@ -213,6 +217,7 @@ class SettingCategoryAlert extends ConsumerWidget {
                   ),
                   IconButton(
                     onPressed: () {
+                      /// notifier 入力された分類をセット
                       ref
                           .watch(settingCategoryProvider.notifier)
                           .inputCategory(bunrui: category.bunrui);

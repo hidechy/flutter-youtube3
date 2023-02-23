@@ -83,43 +83,37 @@ class VideoListItem extends ConsumerWidget {
                         ),
                       ),
                       Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Column(
                           children: [
-                            Container(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: (data.special == '1')
-                                  ? const Icon(
-                                      Icons.star,
-                                      color: Colors.greenAccent,
-                                    )
-                                  : Icon(
-                                      Icons.check_box_outline_blank,
-                                      color: Colors.black.withOpacity(0.2),
-                                    ),
-                            ),
-                            Row(
-                              children: [
-                                if (listAddDisplay) ...[
-                                  GestureDetector(
-                                    onTap: () {
-                                      _ref
-                                          .watch(appParamProvider.notifier)
-                                          .setYoutubeIdList(
-                                              youtubeId: data.youtubeId);
-                                    },
-                                    child: const Icon(Icons.control_point),
+                            (data.special == '1')
+                                ? const Icon(
+                                    Icons.star,
+                                    color: Colors.greenAccent,
+                                  )
+                                : Icon(
+                                    Icons.star,
+                                    color: Colors.grey.withOpacity(0.3),
                                   ),
-                                  const SizedBox(width: 20),
-                                ],
-                                if (linkDisplay)
-                                  GestureDetector(
-                                    onTap: () =>
-                                        _openBrowser(youtubeId: data.youtubeId),
-                                    child: const Icon(Icons.link),
-                                  ),
-                              ],
-                            ),
+                            const SizedBox(height: 10),
+                            if (listAddDisplay) ...[
+                              GestureDetector(
+                                onTap: () {
+                                  _ref
+                                      .watch(appParamProvider.notifier)
+                                      .setYoutubeIdList(
+                                          youtubeId: data.youtubeId);
+                                },
+                                child: const Icon(Icons.control_point),
+                              ),
+                              const SizedBox(width: 20),
+                            ],
+                            const SizedBox(height: 10),
+                            if (linkDisplay)
+                              GestureDetector(
+                                onTap: () =>
+                                    _openBrowser(youtubeId: data.youtubeId),
+                                child: const Icon(Icons.link),
+                              ),
                           ],
                         ),
                       ),

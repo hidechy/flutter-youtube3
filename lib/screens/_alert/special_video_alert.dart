@@ -65,8 +65,14 @@ class SpecialVideoAlert extends ConsumerWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(element.bunrui),
-            Text(element.count.toString()),
+            Text(
+              element.bunrui,
+              style: const TextStyle(fontSize: 12),
+            ),
+            Text(
+              element.count.toString(),
+              style: const TextStyle(fontSize: 12),
+            ),
           ],
         ),
         children: element.item.map((val) {

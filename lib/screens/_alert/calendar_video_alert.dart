@@ -98,17 +98,20 @@ class CalendarVideoAlert extends ConsumerWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(category1 ?? ''),
-                        Text(category2 ?? ''),
-                        Text(
-                          (element.bunrui == 0)
-                              ? '---'
-                              : element.bunrui.toString(),
-                        ),
-                      ],
+                    child: DefaultTextStyle(
+                      style: const TextStyle(fontSize: 12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(category1 ?? ''),
+                          Text(category2 ?? ''),
+                          Text(
+                            (element.bunrui == 0)
+                                ? '---'
+                                : element.bunrui.toString(),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   IconButton(

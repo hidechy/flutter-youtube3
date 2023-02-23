@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -101,7 +103,10 @@ class _BlankBunruiSettingScreenState
                             backgroundColor: Colors.blueAccent.withOpacity(0.3),
                           ),
                           onPressed: dispBunruiItem,
-                          child: const Text('分類する'),
+                          child: const Text(
+                            '分類する',
+                            style: TextStyle(fontSize: 12),
+                          ),
                         ),
                       );
                     },
@@ -132,7 +137,10 @@ class _BlankBunruiSettingScreenState
                     backgroundColor: Colors.blueAccent.withOpacity(0.3),
                   ),
                   onPressed: displayThumbnail,
-                  child: const Text('サムネイル表示'),
+                  child: const Text(
+                    'サムネイル表示',
+                    style: TextStyle(fontSize: 12),
+                  ),
                 ),
               ),
             ],
@@ -207,14 +215,19 @@ class _BlankBunruiSettingScreenState
 
     if (bunruiItems.isNotEmpty) {
       bunruiItems.forEach((element) {
+        /// notifier 動画のidを選択リストに追加する
         ref
             .watch(appParamProvider.notifier)
             .setYoutubeIdList(youtubeId: element);
-
-        ref
-            .watch(videoManipulateProvider.notifier)
-            .videoManipulate(flag: bunruiText.text);
       });
+
+      /// notifier 動画の分類をセットする
+      await ref
+          .watch(videoManipulateProvider.notifier)
+          .videoManipulate(flag: bunruiText.text);
+
+      /// notifier 未分類の動画を取得する
+      await ref.watch(blankBunruiVideoProvider.notifier).getBlankBunruiVideo();
 
       Navigator.pop(context);
     }

@@ -93,19 +93,19 @@ class BunruiListAlert extends ConsumerWidget {
                   children: [
                     Row(
                       children: [
-                        const Expanded(child: Text('カテゴリー1')),
+                        const Expanded(child: Text('cate1')),
                         Expanded(flex: 2, child: Text(category1!)),
                       ],
                     ),
                     Row(
                       children: [
-                        const Expanded(child: Text('カテゴリー2')),
+                        const Expanded(child: Text('cate2')),
                         Expanded(flex: 2, child: Text(category2!)),
                       ],
                     ),
                     Row(
                       children: [
-                        const Expanded(child: Text('分類')),
+                        const Expanded(child: Text('bunrui')),
                         Expanded(
                           flex: 2,
                           child: Text((key == '') ? '---' : key),

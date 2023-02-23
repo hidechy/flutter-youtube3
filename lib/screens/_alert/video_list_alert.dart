@@ -88,11 +88,13 @@ class VideoListAlert extends ConsumerWidget {
           ),
           child: GestureDetector(
             onTap: () {
+              /// notifier 選択された分類をセット
               _ref.watch(appParamProvider.notifier).setSelectedBunrui(
                     category2: category2,
                     bunrui: element.bunrui,
                   );
 
+              /// notifier 分類に紐づく動画を取得
               _ref
                   .watch(videoListProvider.notifier)
                   .getVideoList(bunrui: element.bunrui);
@@ -158,9 +160,13 @@ class VideoListAlert extends ConsumerWidget {
           children: [
             ChoiceChip(
               selected: true,
-              label: const Text('選出'),
+              label: const Text(
+                '選出',
+                style: TextStyle(fontSize: 12),
+              ),
               selectedColor: Colors.blueAccent.withOpacity(0.3),
               onSelected: (bool isSelected) async {
+                /// notifier 選択された動画を選出する
                 await _ref
                     .watch(videoManipulateProvider.notifier)
                     .videoManipulate(flag: 'special');
@@ -171,9 +177,13 @@ class VideoListAlert extends ConsumerWidget {
             const SizedBox(width: 10),
             ChoiceChip(
               selected: true,
-              label: const Text('分類消去'),
+              label: const Text(
+                '分類消去',
+                style: TextStyle(fontSize: 12),
+              ),
               selectedColor: Colors.blueAccent.withOpacity(0.3),
               onSelected: (bool isSelected) async {
+                /// notifier 選択された動画の分類を消去する
                 await _ref
                     .watch(videoManipulateProvider.notifier)
                     .videoManipulate(flag: 'erase');
@@ -184,9 +194,13 @@ class VideoListAlert extends ConsumerWidget {
             const SizedBox(width: 10),
             ChoiceChip(
               selected: true,
-              label: const Text('削除'),
+              label: const Text(
+                '削除',
+                style: TextStyle(fontSize: 12),
+              ),
               selectedColor: Colors.blueAccent.withOpacity(0.3),
               onSelected: (bool isSelected) async {
+                /// notifier 選択された動画を削除する
                 await _ref
                     .watch(videoManipulateProvider.notifier)
                     .videoManipulate(flag: 'delete');
@@ -204,8 +218,10 @@ class VideoListAlert extends ConsumerWidget {
   Future<void> videoListReload() async {
     final appParamState = _ref.watch(appParamProvider);
 
+    /// notifier 動画の選択をクリアする
     await _ref.watch(appParamProvider.notifier).clearYoutubeIdList();
 
+    /// notifier 選択された分類の動画を取得する
     await _ref
         .watch(videoListProvider.notifier)
         .getVideoList(bunrui: appParamState.selectedBunrui.split('|')[1]);

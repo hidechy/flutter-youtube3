@@ -71,7 +71,10 @@ class SearchVideoAlert extends ConsumerWidget {
                                 .watch(appParamProvider.notifier)
                                 .setSearchText(text: searchText.text);
                           },
-                          child: const Text('検索する'),
+                          child: const Text(
+                            '検索する',
+                            style: TextStyle(fontSize: 12),
+                          ),
                         ),
                       );
                     },

@@ -109,7 +109,7 @@ class CategoryListPage extends ConsumerWidget {
                   children: [
                     Text(
                       element.category2,
-                      style: const TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 12),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -128,7 +128,10 @@ class CategoryListPage extends ConsumerWidget {
                           ),
                         );
                       },
-                      child: const Icon(Icons.link),
+                      child: Icon(
+                        Icons.link,
+                        color: Colors.white.withOpacity(0.8),
+                      ),
                     ),
                   ],
                 ),

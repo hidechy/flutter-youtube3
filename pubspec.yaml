@@ -18,6 +18,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_launcher_icons:
+  flutter_native_splash:
   freezed_annotation: ^2.2.0
   hooks_riverpod: ^2.2.0
   http: ^0.13.5
@@ -44,3 +46,15 @@ flutter:
 
   assets:
     - assets/images/
+
+flutter_native_splash:
+  image: "assets/images/playbutton.png"
+  color: "ffffff"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/ic_launcher.png"
+
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/images/ic_launcher.png"

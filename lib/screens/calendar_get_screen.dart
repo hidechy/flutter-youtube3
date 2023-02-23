@@ -152,6 +152,7 @@ class CalendarGetScreen extends ConsumerWidget {
 
   ///
   void onDayPressed({required DateTime date}) {
+    /// notifier カレンダー選択
     _ref.watch(blueBallProvider.notifier).setDateTime(dateTime: date);
     _ref.watch(focusDayProvider.notifier).setDateTime(dateTime: date);
 

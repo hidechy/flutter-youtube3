@@ -57,6 +57,7 @@ class HistoryVideoAlert extends ConsumerWidget {
                 min: 2019,
                 max: double.parse(maxYear),
                 onChanged: (double value) {
+                  /// notifier 選択された年をセット
                   ref
                       .watch(appParamProvider.notifier)
                       .setSelectedYear(year: value.toString().split('.')[0]);
