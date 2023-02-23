@@ -66,6 +66,7 @@ class HomeScreen extends ConsumerWidget {
       model: build.model,
     );
 
+    /// notifier Androidのデバイス情報をセット
     _ref.watch(deviceInfoProvider.notifier).setDeviceInfo(param: request);
   }
 
@@ -77,6 +78,7 @@ class HomeScreen extends ConsumerWidget {
       model: data.model ?? '',
     );
 
+    /// notifier iosのデバイス情報をセット
     _ref.watch(deviceInfoProvider.notifier).setDeviceInfo(param: request);
   }
 
