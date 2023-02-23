@@ -74,6 +74,8 @@ class HistoryVideoAlert extends ConsumerWidget {
                 ),
               ),
 
+              const SizedBox(height: 20),
+
               Expanded(child: displayHistoryVideo()),
             ],
           ),

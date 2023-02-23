@@ -1,15 +1,18 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../extensions/extensions.dart';
 import 'app_param_state.dart';
 
 ////////////////////////////////////////////////
 final appParamProvider =
     StateNotifierProvider.autoDispose<AppParamNotifier, AppParamState>((ref) {
+  final year = DateTime.now().yyyy;
+
   return AppParamNotifier(
-    const AppParamState(
+    AppParamState(
       selectedBunrui: '',
       youtubeIdList: [],
-      selectedYear: '',
+      selectedYear: year,
     ),
   );
 });
