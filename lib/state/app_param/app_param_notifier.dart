@@ -6,7 +6,11 @@ import 'app_param_state.dart';
 final appParamProvider =
     StateNotifierProvider.autoDispose<AppParamNotifier, AppParamState>((ref) {
   return AppParamNotifier(
-    const AppParamState(selectedBunrui: '', youtubeIdList: []),
+    const AppParamState(
+      selectedBunrui: '',
+      youtubeIdList: [],
+      selectedYear: '',
+    ),
   );
 });
 
@@ -40,6 +44,10 @@ class AppParamNotifier extends StateNotifier<AppParamState> {
   Future<void> clearYoutubeIdList() async {
     state = state.copyWith(youtubeIdList: []);
   }
+
+  ///
+  Future<void> setSelectedYear({required String year}) async =>
+      state = state.copyWith(selectedYear: year);
 }
 
 ////////////////////////////////////////////////

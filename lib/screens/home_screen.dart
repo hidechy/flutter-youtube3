@@ -10,6 +10,7 @@ import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:youtube3/screens/_alert/history_video_alert.dart';
 
 import '../state/device_info/device_info_notifier.dart';
 import '../state/device_info/device_info_request_state.dart';
@@ -220,10 +221,12 @@ class HomeScreen extends ConsumerWidget {
             ),
             IconButton(
               icon: const Icon(Icons.arrow_downward),
-              onPressed: () {},
-              // onPressed: () {
-              //   Navigator.pushNamed(context, '/remove');
-              // },
+              onPressed: () {
+                BunruiDialog(
+                  context: context,
+                  widget: HistoryVideoAlert(),
+                );
+              },
             ),
             IconButton(
               icon: const Icon(Icons.search),

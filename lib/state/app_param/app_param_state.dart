@@ -7,5 +7,6 @@ class AppParamState with _$AppParamState {
   const factory AppParamState({
     required String selectedBunrui,
     required List<String> youtubeIdList,
+    required String selectedYear,
   }) = _AppParamState;
 }
