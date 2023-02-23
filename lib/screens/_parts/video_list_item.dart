@@ -25,9 +25,14 @@ class VideoListItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
-    final year = data.getdate.substring(0, 4);
-    final month = data.getdate.substring(4, 6);
-    final day = data.getdate.substring(6);
+    var getdate = '';
+
+    if (data.getdate != 'null') {
+      final year = data.getdate.substring(0, 4);
+      final month = data.getdate.substring(4, 6);
+      final day = data.getdate.substring(6);
+      getdate = '$year-$month-$day';
+    }
 
     return Stack(
       children: [
@@ -143,7 +148,7 @@ class VideoListItem extends ConsumerWidget {
                   alignment: Alignment.topRight,
                   child: Text.rich(
                     TextSpan(children: [
-                      TextSpan(text: '$year-$month-$day'),
+                      TextSpan(text: getdate),
                       const TextSpan(text: ' / '),
                       TextSpan(
                         text: data.pubdate,

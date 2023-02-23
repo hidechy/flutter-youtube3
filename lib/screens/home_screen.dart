@@ -10,17 +10,16 @@ import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:youtube3/screens/_alert/history_video_alert.dart';
-import 'package:youtube3/screens/_alert/search_video_alert.dart';
 
 import '../state/device_info/device_info_notifier.dart';
 import '../state/device_info/device_info_request_state.dart';
 import '../viewmodel/category_notifier.dart';
-import '../viewmodel/video_notifier.dart';
+import '_alert/bunrui_blank_video_alert.dart';
+import '_alert/history_video_alert.dart';
+import '_alert/search_video_alert.dart';
 import '_alert/special_video_alert.dart';
 import '_pages/category_list_page.dart';
 import '_parts/bunrui_dialog.dart';
-import 'blank_bunrui_setting_screen.dart';
 import 'calendar_get_screen.dart';
 import 'calendar_publish_screen.dart';
 
@@ -89,8 +88,6 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
-    makeDefaultContents();
-
     makeBigCategoryTab();
 
     initPlatformState();
@@ -106,15 +103,9 @@ class HomeScreen extends ConsumerWidget {
           centerTitle: true,
           leading: GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    makeDefaultContents();
-
-                    return BlankBunruiSettingScreen(contents: contents);
-                  },
-                ),
+              BunruiDialog(
+                context: context,
+                widget: BunruiBlankVideoAlert(),
               );
             },
             child: const Icon(Icons.input),
@@ -255,31 +246,45 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  ///
-  void makeDefaultContents() {
-    contents = [];
-
-    final blankBunruiVideoState = _ref.watch(blankBunruiVideoProvider);
-
-    final ddItem = <DragAndDropItem>[];
-    blankBunruiVideoState.forEach((element) {
-      final text = '${element.title} // ${element.youtubeId}';
-      ddItem.add(DragAndDropItem(child: Text(text)));
-    });
-
-    contents
-      ..add(
-        DragAndDropList(
-          header: const Text('LIST_UP'),
-          children: <DragAndDropItem>[
-            DragAndDropItem(child: const Text('-----'))
-          ],
-        ),
-      )
-      ..add(
-        DragAndDropList(header: const Text('ALL'), children: ddItem),
-      );
-  }
+  //
+  //
+  //
+  //
+  //
+  //
+  // ///
+  // void makeDefaultContents() {
+  //   contents = [];
+  //
+  //   final blankBunruiVideoState = _ref.watch(blankBunruiVideoProvider);
+  //
+  //   final ddItem = <DragAndDropItem>[];
+  //   blankBunruiVideoState.forEach((element) {
+  //     final text = '${element.title} // ${element.youtubeId}';
+  //     ddItem.add(DragAndDropItem(child: Text(text)));
+  //   });
+  //
+  //   contents
+  //     ..add(
+  //       DragAndDropList(
+  //         header: const Text('LIST_UP'),
+  //         children: <DragAndDropItem>[
+  //           DragAndDropItem(child: const Text('-----'))
+  //         ],
+  //       ),
+  //     )
+  //     ..add(
+  //       DragAndDropList(header: const Text('ALL'), children: ddItem),
+  //     );
+  // }
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
 
   ///
   void makeBigCategoryTab() {
