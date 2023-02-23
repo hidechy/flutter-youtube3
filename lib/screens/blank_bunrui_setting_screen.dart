@@ -1,14 +1,16 @@
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:youtube3/screens/home_screen.dart';
-import 'package:youtube3/state/app_param/app_param_notifier.dart';
 
+import '../extensions/extensions.dart';
+import '../state/app_param/app_param_notifier.dart';
+import '../state/device_info/device_info_notifier.dart';
 import '../utility/utility.dart';
 import '../viewmodel/video_notifier.dart';
 import '_alert/bunrui_list_alert.dart';
 import '_alert/setting_thumbnail_alert.dart';
 import '_parts/bunrui_dialog.dart';
+import 'home_screen.dart';
 
 class BlankBunruiSettingScreen extends ConsumerStatefulWidget {
   const BlankBunruiSettingScreen({super.key});
@@ -36,6 +38,8 @@ class _BlankBunruiSettingScreenState
   Widget build(BuildContext context) {
     makeDefaultContents();
 
+    final deviceInfoState = ref.read(deviceInfoProvider);
+
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -44,6 +48,14 @@ class _BlankBunruiSettingScreenState
           Column(
             children: [
               const SizedBox(height: 50),
+
+              Container(width: context.screenSize.width),
+
+              //----------//
+              if (deviceInfoState.model == 'iPhone')
+                _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

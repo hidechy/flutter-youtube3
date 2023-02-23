@@ -5,9 +5,10 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:youtube3/extensions/extensions.dart';
 
+import '../extensions/extensions.dart';
 import '../models/video.dart';
+import '../state/device_info/device_info_notifier.dart';
 import '../utility/utility.dart';
 import '../viewmodel/video_notifier.dart';
 import '_alert/calendar_video_alert.dart';
@@ -59,6 +60,8 @@ class CalendarPublishScreen extends ConsumerWidget {
     }
     //--------------------------------------------- event
 
+    final deviceInfoState = ref.read(deviceInfoProvider);
+
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -69,6 +72,14 @@ class CalendarPublishScreen extends ConsumerWidget {
           Column(
             children: [
               const SizedBox(height: 50),
+
+              Container(width: context.screenSize.width),
+
+              //----------//
+              if (deviceInfoState.model == 'iPhone')
+                _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
