@@ -2,16 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:youtube3/state/setting_category/setting_category_notifier.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/category.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../state/setting_category/setting_category_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/category_notifier.dart';
 
 class SettingCategoryAlert extends ConsumerWidget {
   SettingCategoryAlert({super.key, required this.category});
 
   final Category category;
+
+  final Utility _utility = Utility();
 
   List<String> category1List = [];
   List<String> category2List = [];
@@ -31,6 +35,8 @@ class SettingCategoryAlert extends ConsumerWidget {
 
     final settingCategoryState = ref.watch(settingCategoryProvider);
 
+    final deviceInfoState = ref.read(deviceInfoProvider);
+
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
@@ -47,7 +53,13 @@ class SettingCategoryAlert extends ConsumerWidget {
             children: [
               const SizedBox(height: 20),
               Container(width: context.screenSize.width),
-              Text(category.bunrui),
+
+              //----------//
+              if (deviceInfoState.model == 'iPhone')
+                _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
+
+              Text((category.bunrui == '') ? '---' : category.bunrui),
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 padding: const EdgeInsets.all(10),

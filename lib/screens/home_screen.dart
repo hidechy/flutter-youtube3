@@ -1,17 +1,24 @@
-// ignore_for_file: must_be_immutable, use_decorated_box, cascade_invocations
+// ignore_for_file: must_be_immutable, use_decorated_box, cascade_invocations, empty_catches
 
+import 'dart:async';
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_item.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:youtube3/screens/_alert/special_video_alert.dart';
-import 'package:youtube3/screens/_parts/bunrui_dialog.dart';
-import 'package:youtube3/screens/calendar_get_screen.dart';
-import 'package:youtube3/screens/calendar_publish_screen.dart';
 
+import '../state/device_info/device_info_notifier.dart';
+import '../state/device_info/device_info_request_state.dart';
 import '../viewmodel/category_notifier.dart';
+import '_alert/special_video_alert.dart';
 import '_pages/category_list_page.dart';
+import '_parts/bunrui_dialog.dart';
 import 'blank_bunrui_setting_screen.dart';
+import 'calendar_get_screen.dart';
+import 'calendar_publish_screen.dart';
 
 class TabInfo {
   TabInfo(this.label, this.widget);
@@ -29,7 +36,45 @@ class HomeScreen extends ConsumerWidget {
 
   int selectedIndex = 0;
 
+  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+
   late WidgetRef _ref;
+
+  //---------------------------------------------------//
+
+  Future<void> initPlatformState() async {
+    try {
+      if (Platform.isAndroid) {
+        _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
+      } else if (Platform.isIOS) {
+        _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
+      }
+    } on PlatformException {}
+  }
+
+  ///
+  void _readAndroidBuildData(AndroidDeviceInfo build) {
+    final request = DeviceInfoRequestState(
+      name: build.brand,
+      systemName: build.product,
+      model: build.model,
+    );
+
+    _ref.watch(deviceInfoProvider.notifier).setDeviceInfo(param: request);
+  }
+
+  ///
+  void _readIosDeviceInfo(IosDeviceInfo data) {
+    final request = DeviceInfoRequestState(
+      name: data.name ?? '',
+      systemName: data.systemName ?? '',
+      model: data.model ?? '',
+    );
+
+    _ref.watch(deviceInfoProvider.notifier).setDeviceInfo(param: request);
+  }
+
+  //---------------------------------------------------//
 
   ///
   @override
@@ -37,6 +82,8 @@ class HomeScreen extends ConsumerWidget {
     _ref = ref;
 
     makeBigCategoryTab();
+
+    initPlatformState();
 
     return DefaultTabController(
       length: tabs.length,

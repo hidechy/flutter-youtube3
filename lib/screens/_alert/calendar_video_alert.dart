@@ -6,6 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../extensions/extensions.dart';
 import '../../models/category.dart';
 import '../../models/video.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/category_notifier.dart';
 import '../_parts/bunrui_dialog.dart';
 import '../_parts/video_list_item.dart';
@@ -22,6 +24,8 @@ class CalendarVideoAlert extends ConsumerWidget {
   final String date;
   final String pubget;
 
+  final Utility _utility = Utility();
+
   late BuildContext _context;
   late WidgetRef _ref;
 
@@ -30,6 +34,8 @@ class CalendarVideoAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _context = context;
     _ref = ref;
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
       backgroundColor: Colors.transparent,
@@ -41,6 +47,12 @@ class CalendarVideoAlert extends ConsumerWidget {
           children: [
             const SizedBox(height: 20),
             Container(width: context.screenSize.width),
+
+            //----------//
+            if (deviceInfoState.model == 'iPhone')
+              _utility.getFileNameDebug(name: runtimeType.toString()),
+            //----------//
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -91,9 +103,11 @@ class CalendarVideoAlert extends ConsumerWidget {
                       children: [
                         Text(category1 ?? ''),
                         Text(category2 ?? ''),
-                        Text((element.bunrui != '')
-                            ? element.bunrui.toString()
-                            : ''),
+                        Text(
+                          (element.bunrui == 0)
+                              ? '---'
+                              : element.bunrui.toString(),
+                        ),
                       ],
                     ),
                   ),
@@ -105,7 +119,9 @@ class CalendarVideoAlert extends ConsumerWidget {
                           category: Category(
                             category1: category1 ?? '',
                             category2: category2 ?? '',
-                            bunrui: element.bunrui.toString(),
+                            bunrui: (element.bunrui == 0)
+                                ? ''
+                                : element.bunrui.toString(),
                           ),
                         ),
                       );

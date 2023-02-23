@@ -5,12 +5,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/category.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/category_notifier.dart';
 import '../_parts/bunrui_dialog.dart';
 import 'setting_category_alert.dart';
 
 class BunruiListAlert extends ConsumerWidget {
   BunruiListAlert({super.key});
+
+  final Utility _utility = Utility();
 
   List<Category> bunruiList = [];
 
@@ -22,6 +26,8 @@ class BunruiListAlert extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _context = context;
     _ref = ref;
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -39,6 +45,12 @@ class BunruiListAlert extends ConsumerWidget {
             children: [
               const SizedBox(height: 20),
               Container(width: context.screenSize.width),
+
+              //----------//
+              if (deviceInfoState.model == 'iPhone')
+                _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
+
               Expanded(child: displayCategoryList()),
             ],
           ),
@@ -94,7 +106,10 @@ class BunruiListAlert extends ConsumerWidget {
                     Row(
                       children: [
                         const Expanded(child: Text('分類')),
-                        Expanded(flex: 2, child: Text(key)),
+                        Expanded(
+                          flex: 2,
+                          child: Text((key == '') ? '---' : key),
+                        ),
                       ],
                     ),
                   ],

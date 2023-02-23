@@ -2,13 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:youtube3/screens/_parts/video_list_item.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/video_notifier.dart';
+import '../_parts/video_list_item.dart';
 
 class SpecialVideoAlert extends ConsumerWidget {
   SpecialVideoAlert({super.key});
+
+  final Utility _utility = Utility();
 
   late WidgetRef _ref;
 
@@ -16,6 +20,8 @@ class SpecialVideoAlert extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -33,6 +39,12 @@ class SpecialVideoAlert extends ConsumerWidget {
             children: [
               const SizedBox(height: 20),
               Container(width: context.screenSize.width),
+
+              //----------//
+              if (deviceInfoState.model == 'iPhone')
+                _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
+
               const SizedBox(height: 10),
               Expanded(child: displayOrderedSpecialVideoList()),
             ],

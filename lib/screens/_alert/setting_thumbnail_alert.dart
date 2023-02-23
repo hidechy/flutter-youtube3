@@ -1,12 +1,15 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../_parts/bunrui_dialog.dart';
 import 'setting_bunrui_alert.dart';
 
-class SettingThumbnailAlert extends StatelessWidget {
+class SettingThumbnailAlert extends ConsumerWidget {
   SettingThumbnailAlert(
       {super.key, required this.shitamiItems, required this.bunruiText});
 
@@ -14,12 +17,16 @@ class SettingThumbnailAlert extends StatelessWidget {
 
   final TextEditingController bunruiText;
 
+  final Utility _utility = Utility();
+
   late BuildContext _context;
 
   ///
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     _context = context;
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -44,6 +51,12 @@ class SettingThumbnailAlert extends StatelessWidget {
             children: [
               const SizedBox(height: 20),
               Container(width: context.screenSize.width),
+
+              //----------//
+              if (deviceInfoState.model == 'iPhone')
+                _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
+
               Expanded(child: displayThumbnail()),
             ],
           ),

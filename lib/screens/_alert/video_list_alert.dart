@@ -6,6 +6,8 @@ import 'package:uuid/uuid.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/app_param/app_param_notifier.dart';
+import '../../state/device_info/device_info_notifier.dart';
+import '../../utility/utility.dart';
 import '../../viewmodel/category_notifier.dart';
 import '../../viewmodel/video_notifier.dart';
 import '../_parts/video_list_item.dart';
@@ -15,6 +17,8 @@ class VideoListAlert extends ConsumerWidget {
 
   final String category2;
 
+  final Utility _utility = Utility();
+
   Uuid uuid = const Uuid();
 
   late WidgetRef _ref;
@@ -23,6 +27,8 @@ class VideoListAlert extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
+
+    final deviceInfoState = ref.read(deviceInfoProvider);
 
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
@@ -40,6 +46,12 @@ class VideoListAlert extends ConsumerWidget {
             children: [
               const SizedBox(height: 20),
               Container(width: context.screenSize.width),
+
+              //----------//
+              if (deviceInfoState.model == 'iPhone')
+                _utility.getFileNameDebug(name: runtimeType.toString()),
+              //----------//
+
               Text(category2),
               displayBunrui(),
               manipulateButton(),

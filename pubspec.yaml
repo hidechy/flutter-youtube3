@@ -12,6 +12,7 @@ dependencies:
 
   cupertino_icons: ^1.0.2
 
+  device_info_plus: ^8.0.0
   drag_and_drop_lists: ^0.3.2+2
   fab_circular_menu: ^1.0.2
   flutter:
