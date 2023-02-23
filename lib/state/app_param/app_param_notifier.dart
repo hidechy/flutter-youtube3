@@ -13,6 +13,7 @@ final appParamProvider =
       selectedBunrui: '',
       youtubeIdList: [],
       selectedYear: year,
+      searchText: '',
     ),
   );
 });
@@ -51,6 +52,10 @@ class AppParamNotifier extends StateNotifier<AppParamState> {
   ///
   Future<void> setSelectedYear({required String year}) async =>
       state = state.copyWith(selectedYear: year);
+
+  ///
+  Future<void> setSearchText({required String text}) async =>
+      state = state.copyWith(searchText: text);
 }
 
 ////////////////////////////////////////////////

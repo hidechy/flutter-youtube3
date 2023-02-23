@@ -19,6 +19,7 @@ mixin _$AppParamState {
   String get selectedBunrui => throw _privateConstructorUsedError;
   List<String> get youtubeIdList => throw _privateConstructorUsedError;
   String get selectedYear => throw _privateConstructorUsedError;
+  String get searchText => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AppParamStateCopyWith<AppParamState> get copyWith =>
@@ -32,7 +33,10 @@ abstract class $AppParamStateCopyWith<$Res> {
       _$AppParamStateCopyWithImpl<$Res, AppParamState>;
   @useResult
   $Res call(
-      {String selectedBunrui, List<String> youtubeIdList, String selectedYear});
+      {String selectedBunrui,
+      List<String> youtubeIdList,
+      String selectedYear,
+      String searchText});
 }
 
 /// @nodoc
@@ -51,6 +55,7 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
     Object? selectedBunrui = null,
     Object? youtubeIdList = null,
     Object? selectedYear = null,
+    Object? searchText = null,
   }) {
     return _then(_value.copyWith(
       selectedBunrui: null == selectedBunrui
@@ -65,6 +70,10 @@ class _$AppParamStateCopyWithImpl<$Res, $Val extends AppParamState>
           ? _value.selectedYear
           : selectedYear // ignore: cast_nullable_to_non_nullable
               as String,
+      searchText: null == searchText
+          ? _value.searchText
+          : searchText // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -78,7 +87,10 @@ abstract class _$$_AppParamStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String selectedBunrui, List<String> youtubeIdList, String selectedYear});
+      {String selectedBunrui,
+      List<String> youtubeIdList,
+      String selectedYear,
+      String searchText});
 }
 
 /// @nodoc
@@ -95,6 +107,7 @@ class __$$_AppParamStateCopyWithImpl<$Res>
     Object? selectedBunrui = null,
     Object? youtubeIdList = null,
     Object? selectedYear = null,
+    Object? searchText = null,
   }) {
     return _then(_$_AppParamState(
       selectedBunrui: null == selectedBunrui
@@ -109,6 +122,10 @@ class __$$_AppParamStateCopyWithImpl<$Res>
           ? _value.selectedYear
           : selectedYear // ignore: cast_nullable_to_non_nullable
               as String,
+      searchText: null == searchText
+          ? _value.searchText
+          : searchText // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -119,7 +136,8 @@ class _$_AppParamState implements _AppParamState {
   const _$_AppParamState(
       {required this.selectedBunrui,
       required final List<String> youtubeIdList,
-      required this.selectedYear})
+      required this.selectedYear,
+      required this.searchText})
       : _youtubeIdList = youtubeIdList;
 
   @override
@@ -134,10 +152,12 @@ class _$_AppParamState implements _AppParamState {
 
   @override
   final String selectedYear;
+  @override
+  final String searchText;
 
   @override
   String toString() {
-    return 'AppParamState(selectedBunrui: $selectedBunrui, youtubeIdList: $youtubeIdList, selectedYear: $selectedYear)';
+    return 'AppParamState(selectedBunrui: $selectedBunrui, youtubeIdList: $youtubeIdList, selectedYear: $selectedYear, searchText: $searchText)';
   }
 
   @override
@@ -150,12 +170,18 @@ class _$_AppParamState implements _AppParamState {
             const DeepCollectionEquality()
                 .equals(other._youtubeIdList, _youtubeIdList) &&
             (identical(other.selectedYear, selectedYear) ||
-                other.selectedYear == selectedYear));
+                other.selectedYear == selectedYear) &&
+            (identical(other.searchText, searchText) ||
+                other.searchText == searchText));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, selectedBunrui,
-      const DeepCollectionEquality().hash(_youtubeIdList), selectedYear);
+  int get hashCode => Object.hash(
+      runtimeType,
+      selectedBunrui,
+      const DeepCollectionEquality().hash(_youtubeIdList),
+      selectedYear,
+      searchText);
 
   @JsonKey(ignore: true)
   @override
@@ -168,7 +194,8 @@ abstract class _AppParamState implements AppParamState {
   const factory _AppParamState(
       {required final String selectedBunrui,
       required final List<String> youtubeIdList,
-      required final String selectedYear}) = _$_AppParamState;
+      required final String selectedYear,
+      required final String searchText}) = _$_AppParamState;
 
   @override
   String get selectedBunrui;
@@ -176,6 +203,8 @@ abstract class _AppParamState implements AppParamState {
   List<String> get youtubeIdList;
   @override
   String get selectedYear;
+  @override
+  String get searchText;
   @override
   @JsonKey(ignore: true)
   _$$_AppParamStateCopyWith<_$_AppParamState> get copyWith =>
