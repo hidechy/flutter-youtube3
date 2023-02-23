@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_item.dart';
+import 'package:drag_and_drop_lists/drag_and_drop_list.dart';
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +14,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../state/device_info/device_info_notifier.dart';
 import '../state/device_info/device_info_request_state.dart';
 import '../viewmodel/category_notifier.dart';
+import '../viewmodel/video_notifier.dart';
 import '_alert/special_video_alert.dart';
 import '_pages/category_list_page.dart';
 import '_parts/bunrui_dialog.dart';
@@ -37,6 +39,8 @@ class HomeScreen extends ConsumerWidget {
   int selectedIndex = 0;
 
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+
+  List<DragAndDropList> contents = [];
 
   late WidgetRef _ref;
 
@@ -81,6 +85,8 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     _ref = ref;
 
+    makeDefaultContents();
+
     makeBigCategoryTab();
 
     initPlatformState();
@@ -99,7 +105,12 @@ class HomeScreen extends ConsumerWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const BlankBunruiSettingScreen()),
+                  builder: (context) {
+                    makeDefaultContents();
+
+                    return BlankBunruiSettingScreen(contents: contents);
+                  },
+                ),
               );
             },
             child: const Icon(Icons.input),
@@ -234,6 +245,32 @@ class HomeScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  ///
+  void makeDefaultContents() {
+    contents = [];
+
+    final blankBunruiVideoState = _ref.watch(blankBunruiVideoProvider);
+
+    final ddItem = <DragAndDropItem>[];
+    blankBunruiVideoState.forEach((element) {
+      final text = '${element.title} // ${element.youtubeId}';
+      ddItem.add(DragAndDropItem(child: Text(text)));
+    });
+
+    contents
+      ..add(
+        DragAndDropList(
+          header: const Text('LIST_UP'),
+          children: <DragAndDropItem>[
+            DragAndDropItem(child: const Text('-----'))
+          ],
+        ),
+      )
+      ..add(
+        DragAndDropList(header: const Text('ALL'), children: ddItem),
+      );
   }
 
   ///

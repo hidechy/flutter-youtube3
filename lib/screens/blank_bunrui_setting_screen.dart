@@ -13,7 +13,9 @@ import '_parts/bunrui_dialog.dart';
 import 'home_screen.dart';
 
 class BlankBunruiSettingScreen extends ConsumerStatefulWidget {
-  const BlankBunruiSettingScreen({super.key});
+  const BlankBunruiSettingScreen({super.key, required this.contents});
+
+  final List<DragAndDropList> contents;
 
   ///
   @override
@@ -27,8 +29,6 @@ class _BlankBunruiSettingScreenState
 
   TextEditingController bunruiText = TextEditingController();
 
-  List<DragAndDropList> contents = [];
-
   RegExp reg = RegExp('Text(.+)');
 
   List<String> bunruiItems = [];
@@ -36,8 +36,6 @@ class _BlankBunruiSettingScreenState
   ///
   @override
   Widget build(BuildContext context) {
-    makeDefaultContents();
-
     final deviceInfoState = ref.read(deviceInfoProvider);
 
     return Scaffold(
@@ -114,7 +112,7 @@ class _BlankBunruiSettingScreenState
               Expanded(
                 child: DragAndDropLists(
                   removeTopPadding: true,
-                  children: contents,
+                  children: widget.contents,
                   onItemReorder: _onItemReorder,
                   onListReorder: _onListReorder,
                   itemDecorationWhileDragging: const BoxDecoration(
@@ -145,32 +143,6 @@ class _BlankBunruiSettingScreenState
   }
 
   ///
-  void makeDefaultContents() {
-    contents = [];
-
-    final blankBunruiVideoState = ref.watch(blankBunruiVideoProvider);
-
-    final ddItem = <DragAndDropItem>[];
-    blankBunruiVideoState.forEach((element) {
-      final text = '${element.title} // ${element.youtubeId}';
-      ddItem.add(DragAndDropItem(child: Text(text)));
-    });
-
-    contents
-      ..add(
-        DragAndDropList(
-          header: const Text('LIST_UP'),
-          children: <DragAndDropItem>[
-            DragAndDropItem(child: const Text('-----'))
-          ],
-        ),
-      )
-      ..add(
-        DragAndDropList(header: const Text('ALL'), children: ddItem),
-      );
-  }
-
-  ///
   void _onItemReorder(
     int oldItemIndex,
     int oldListIndex,
@@ -178,8 +150,13 @@ class _BlankBunruiSettingScreenState
     int newListIndex,
   ) {
     setState(() {
-      final movedItem = contents[oldListIndex].children.removeAt(oldItemIndex);
-      contents[newListIndex].children.insert(newItemIndex, movedItem);
+      final movedItem = widget.contents[oldListIndex].children.removeAt(
+        oldItemIndex,
+      );
+      widget.contents[newListIndex].children.insert(
+        newItemIndex,
+        movedItem,
+      );
     });
   }
 
@@ -189,8 +166,8 @@ class _BlankBunruiSettingScreenState
     int newListIndex,
   ) {
     setState(() {
-      final movedList = contents.removeAt(oldListIndex);
-      contents.insert(newListIndex, movedList);
+      final movedList = widget.contents.removeAt(oldListIndex);
+      widget.contents.insert(newListIndex, movedList);
     });
   }
 
@@ -198,7 +175,7 @@ class _BlankBunruiSettingScreenState
   Future<void> dispBunruiItem() async {
     bunruiItems = [];
 
-    for (final value in contents) {
+    for (final value in widget.contents) {
       var listName = '';
       final match = reg.firstMatch(value.header.toString());
       if (match != null) {
@@ -247,7 +224,7 @@ class _BlankBunruiSettingScreenState
   void displayThumbnail() {
     final shitamiItems = <Map<String, String>>[];
 
-    for (final value in contents) {
+    for (final value in widget.contents) {
       var listName = '';
       final match = reg.firstMatch(value.header.toString());
       if (match != null) {
