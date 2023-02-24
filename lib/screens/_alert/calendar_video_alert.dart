@@ -10,7 +10,7 @@ import '../../utility/utility.dart';
 import '../../viewmodel/category_notifier.dart';
 import '../_parts/bunrui_dialog.dart';
 import '../_parts/video_list_item.dart';
-import 'bunrui_blank_input_alert.dart';
+import 'bunrui_input_alert.dart';
 
 class CalendarVideoAlert extends ConsumerWidget {
   CalendarVideoAlert(
@@ -117,7 +117,7 @@ class CalendarVideoAlert extends ConsumerWidget {
                     onPressed: () {
                       BunruiDialog(
                         context: _context,
-                        widget: BunruiBlankInputAlert(video: element),
+                        widget: BunruiInputAlert(video: element),
                       );
                     },
                     icon: Icon(

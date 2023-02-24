@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:youtube3/screens/_alert/bunrui_list_alert.dart';
-import 'package:youtube3/screens/_parts/bunrui_dialog.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/video.dart';
@@ -12,10 +10,12 @@ import '../../state/setting_category/setting_category_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/category_notifier.dart';
 import '../../viewmodel/video_notifier.dart';
+import '../_parts/bunrui_dialog.dart';
 import '../_parts/video_list_item.dart';
+import 'bunrui_list_alert.dart';
 
-class BunruiBlankInputAlert extends ConsumerWidget {
-  BunruiBlankInputAlert({super.key, required this.video});
+class BunruiInputAlert extends ConsumerWidget {
+  BunruiInputAlert({super.key, required this.video});
 
   final Video video;
 

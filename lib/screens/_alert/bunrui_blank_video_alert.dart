@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:youtube3/screens/_alert/bunrui_blank_input_alert.dart';
+import 'package:youtube3/screens/_alert/bunrui_input_alert.dart';
 import 'package:youtube3/screens/_parts/bunrui_dialog.dart';
 
 import '../../extensions/extensions.dart';
@@ -81,7 +81,7 @@ class BunruiBlankVideoAlert extends ConsumerWidget {
                     onTap: () {
                       BunruiDialog(
                         context: _context,
-                        widget: BunruiBlankInputAlert(video: element),
+                        widget: BunruiInputAlert(video: element),
                       );
                     },
                     child: const Icon(Icons.input),

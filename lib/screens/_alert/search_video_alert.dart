@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:youtube3/screens/_alert/bunrui_input_alert.dart';
+import 'package:youtube3/screens/_parts/bunrui_dialog.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/app_param/app_param_notifier.dart';
@@ -18,11 +20,13 @@ class SearchVideoAlert extends ConsumerWidget {
 
   TextEditingController searchText = TextEditingController();
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
 
     final deviceInfoState = ref.read(deviceInfoProvider);
@@ -146,9 +150,17 @@ class SearchVideoAlert extends ConsumerWidget {
                               ],
                             ),
                           ),
-                          Icon(
-                            Icons.details,
-                            color: Colors.white.withOpacity(0.6),
+                          GestureDetector(
+                            onTap: () {
+                              BunruiDialog(
+                                context: _context,
+                                widget: BunruiInputAlert(video: element),
+                              );
+                            },
+                            child: Icon(
+                              Icons.input,
+                              color: Colors.white.withOpacity(0.6),
+                            ),
                           ),
                         ],
                       ),
