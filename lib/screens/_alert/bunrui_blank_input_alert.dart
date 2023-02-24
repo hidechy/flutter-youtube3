@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:youtube3/screens/_alert/bunrui_list_alert.dart';
+import 'package:youtube3/screens/_parts/bunrui_dialog.dart';
 
 import '../../extensions/extensions.dart';
 import '../../models/video.dart';
@@ -115,8 +117,13 @@ class BunruiBlankInputAlert extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.list),
+                      onPressed: () {
+                        BunruiDialog(
+                          context: context,
+                          widget: BunruiListAlert(tecs: tecs),
+                        );
+                      },
+                      icon: const Icon(Icons.list),
                     ),
                     IconButton(
                       onPressed: () async {

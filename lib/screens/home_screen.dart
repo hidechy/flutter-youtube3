@@ -246,46 +246,6 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  //
-  //
-  //
-  //
-  //
-  //
-  // ///
-  // void makeDefaultContents() {
-  //   contents = [];
-  //
-  //   final blankBunruiVideoState = _ref.watch(blankBunruiVideoProvider);
-  //
-  //   final ddItem = <DragAndDropItem>[];
-  //   blankBunruiVideoState.forEach((element) {
-  //     final text = '${element.title} // ${element.youtubeId}';
-  //     ddItem.add(DragAndDropItem(child: Text(text)));
-  //   });
-  //
-  //   contents
-  //     ..add(
-  //       DragAndDropList(
-  //         header: const Text('LIST_UP'),
-  //         children: <DragAndDropItem>[
-  //           DragAndDropItem(child: const Text('-----'))
-  //         ],
-  //       ),
-  //     )
-  //     ..add(
-  //       DragAndDropList(header: const Text('ALL'), children: ddItem),
-  //     );
-  // }
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-
   ///
   void makeBigCategoryTab() {
     final bigCategoryState = _ref.watch(bigCategoryProvider);
