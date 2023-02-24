@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:youtube3/state/setting_category/setting_category_notifier.dart';
 
 import '../../extensions/extensions.dart';
 import '../../state/device_info/device_info_notifier.dart';
+import '../../state/setting_category/setting_category_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/category_notifier.dart';
 
