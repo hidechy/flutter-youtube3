@@ -16,6 +16,7 @@ bunruiProvider        List<Category>
 bunruiMapProvider       Map<String, Map<String, String>>
 
 categoryInputProvider       int
+playedAtUpdateProvider        int
 */
 
 ////////////////////////////////////////////////

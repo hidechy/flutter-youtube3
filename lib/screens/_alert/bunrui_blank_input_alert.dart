@@ -75,53 +75,7 @@ class BunruiBlankInputAlert extends ConsumerWidget {
                   thickness: 2,
                 ),
 
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent.withOpacity(0.2),
-                  ),
-                  child: DropdownButton(
-                    value: settingCategoryState.selectedCategory1,
-                    icon: const Visibility(
-                      visible: false,
-                      child: Icon(Icons.arrow_drop_down),
-                    ),
-                    items: category1List.map((val) {
-                      return DropdownMenuItem(
-                        value: val,
-                        child: Text(val),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      /// notifier 選択されたcategory1をセット
-                      ref
-                          .watch(settingCategoryProvider.notifier)
-                          .setSelectedCategory1(value: value!);
-                    },
-                  ),
-                ),
-
-                SizedBox(
-                  width: double.infinity,
-                  child: TextField(
-                    controller: tecs[0],
-                    decoration: const InputDecoration(
-                      filled: true,
-                      border: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: 4,
-                        horizontal: 4,
-                      ),
-                    ),
-                    style: const TextStyle(fontSize: 12),
-                    onChanged: (value) {
-                      /// notifier 入力されたcategory1をセット
-                      ref
-                          .watch(settingCategoryProvider.notifier)
-                          .setInputedCategory1(value: value);
-                    },
-                  ),
-                ),
+                setCategory1Block(),
 
                 const SizedBox(height: 20),
 
@@ -130,53 +84,7 @@ class BunruiBlankInputAlert extends ConsumerWidget {
                   thickness: 2,
                 ),
 
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.blueAccent.withOpacity(0.2),
-                  ),
-                  child: DropdownButton(
-                    value: settingCategoryState.selectedCategory2,
-                    icon: const Visibility(
-                      visible: false,
-                      child: Icon(Icons.arrow_drop_down),
-                    ),
-                    items: category2List.map((val) {
-                      return DropdownMenuItem(
-                        value: val,
-                        child: Text(val),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      /// notifier 選択されたcategory2をセット
-                      ref
-                          .watch(settingCategoryProvider.notifier)
-                          .setSelectedCategory2(value: value!);
-                    },
-                  ),
-                ),
-
-                SizedBox(
-                  width: double.infinity,
-                  child: TextField(
-                    controller: tecs[1],
-                    decoration: const InputDecoration(
-                      filled: true,
-                      border: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: 4,
-                        horizontal: 4,
-                      ),
-                    ),
-                    style: const TextStyle(fontSize: 12),
-                    onChanged: (value) {
-                      /// notifier 入力されたcategory2をセット
-                      ref
-                          .watch(settingCategoryProvider.notifier)
-                          .setInputedCategory2(value: value);
-                    },
-                  ),
-                ),
+                setCategory2Block(),
 
                 const SizedBox(height: 20),
 
@@ -206,7 +114,10 @@ class BunruiBlankInputAlert extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.list),
+                    ),
                     IconButton(
                       onPressed: () async {
                         final cate1 =
@@ -249,6 +160,140 @@ class BunruiBlankInputAlert extends ConsumerWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  ///
+  Widget setCategory1Block() {
+    final settingCategoryState = _ref.watch(settingCategoryProvider);
+
+    return Container(
+      padding: const EdgeInsets.only(left: 10),
+      decoration: BoxDecoration(
+        border: Border(
+          left: BorderSide(
+            color: Colors.blueAccent.withOpacity(0.5),
+            width: 5,
+          ),
+        ),
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.blueAccent.withOpacity(0.2),
+            ),
+            child: DropdownButton(
+              value: settingCategoryState.selectedCategory1,
+              icon: const Visibility(
+                visible: false,
+                child: Icon(Icons.arrow_drop_down),
+              ),
+              items: category1List.map((val) {
+                return DropdownMenuItem(
+                  value: val,
+                  child: Text(val),
+                );
+              }).toList(),
+              onChanged: (value) {
+                /// notifier 選択されたcategory1をセット
+                _ref
+                    .watch(settingCategoryProvider.notifier)
+                    .setSelectedCategory1(value: value!);
+              },
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: TextField(
+              controller: tecs[0],
+              decoration: const InputDecoration(
+                filled: true,
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 4,
+                  horizontal: 4,
+                ),
+              ),
+              style: const TextStyle(fontSize: 12),
+              onChanged: (value) {
+                /// notifier 入力されたcategory1をセット
+                _ref
+                    .watch(settingCategoryProvider.notifier)
+                    .setInputedCategory1(value: value);
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  ///
+  Widget setCategory2Block() {
+    final settingCategoryState = _ref.watch(settingCategoryProvider);
+
+    return Container(
+      padding: const EdgeInsets.only(left: 10),
+      decoration: BoxDecoration(
+        border: Border(
+          left: BorderSide(
+            color: Colors.blueAccent.withOpacity(0.5),
+            width: 5,
+          ),
+        ),
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.blueAccent.withOpacity(0.2),
+            ),
+            child: DropdownButton(
+              value: settingCategoryState.selectedCategory2,
+              icon: const Visibility(
+                visible: false,
+                child: Icon(Icons.arrow_drop_down),
+              ),
+              items: category2List.map((val) {
+                return DropdownMenuItem(
+                  value: val,
+                  child: Text(val),
+                );
+              }).toList(),
+              onChanged: (value) {
+                /// notifier 選択されたcategory2をセット
+                _ref
+                    .watch(settingCategoryProvider.notifier)
+                    .setSelectedCategory2(value: value!);
+              },
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: TextField(
+              controller: tecs[1],
+              decoration: const InputDecoration(
+                filled: true,
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 4,
+                  horizontal: 4,
+                ),
+              ),
+              style: const TextStyle(fontSize: 12),
+              onChanged: (value) {
+                /// notifier 入力されたcategory2をセット
+                _ref
+                    .watch(settingCategoryProvider.notifier)
+                    .setInputedCategory2(value: value);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
