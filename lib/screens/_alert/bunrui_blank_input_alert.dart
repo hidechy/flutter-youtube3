@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, cascade_invocations
+// ignore_for_file: must_be_immutable, cascade_invocations, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,6 +9,7 @@ import '../../state/device_info/device_info_notifier.dart';
 import '../../state/setting_category/setting_category_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/category_notifier.dart';
+import '../../viewmodel/video_notifier.dart';
 import '../_parts/video_list_item.dart';
 
 class BunruiBlankInputAlert extends ConsumerWidget {
@@ -123,7 +124,7 @@ class BunruiBlankInputAlert extends ConsumerWidget {
                   ),
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
 
                 Divider(
                   color: Colors.white.withOpacity(0.3),
@@ -179,7 +180,7 @@ class BunruiBlankInputAlert extends ConsumerWidget {
                   ),
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
 
                 Divider(
                   color: Colors.white.withOpacity(0.3),
@@ -200,13 +201,48 @@ class BunruiBlankInputAlert extends ConsumerWidget {
                       ),
                     ),
                     style: const TextStyle(fontSize: 12),
-                    onChanged: (value) {
-                      // /// notifier 入力されたcategory2をセット
-                      // ref
-                      //     .watch(settingCategoryProvider.notifier)
-                      //     .setInputedCategory2(value: value);
-                    },
                   ),
+                ),
+
+                const SizedBox(height: 20),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(),
+                    IconButton(
+                      onPressed: () async {
+                        final cate1 =
+                            (settingCategoryState.selectedCategory1 != '')
+                                ? settingCategoryState.selectedCategory1
+                                : settingCategoryState.inputedCategory1;
+
+                        final cate2 =
+                            (settingCategoryState.selectedCategory2 != '')
+                                ? settingCategoryState.selectedCategory2
+                                : settingCategoryState.inputedCategory2;
+
+                        if (cate1 == '' || cate2 == '') {
+                          return;
+                        }
+
+                        await ref
+                            .watch(categoryInputProvider.notifier)
+                            .inputBunrui(
+                                youtubeId: video.youtubeId,
+                                cate1: cate1,
+                                cate2: cate2,
+                                bunrui: tecs[2].text);
+
+                        await ref
+                            .watch(blankBunruiVideoProvider.notifier)
+                            .getBlankBunruiVideo();
+
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.input),
+                    ),
+                  ],
                 ),
 
                 const SizedBox(height: 40),

@@ -177,7 +177,7 @@ class SpecialVideoStateNotifier extends StateNotifier<List<SpecialVideo>> {
 
 ////////////////////////////////////////////////
 
-////////////////////////////////////////////////
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 final videoManipulateProvider =
     StateNotifierProvider.autoDispose<VideoManipulateNotifier, int>((ref) {
   final client = ref.read(httpClientProvider);
@@ -218,5 +218,4 @@ class VideoManipulateNotifier extends StateNotifier<int> {
         });
   }
 }
-
-////////////////////////////////////////////////
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
-import '../../models/category.dart';
 import '../../models/video.dart';
 import '../../state/device_info/device_info_notifier.dart';
 import '../../utility/utility.dart';
 import '../../viewmodel/category_notifier.dart';
 import '../_parts/bunrui_dialog.dart';
 import '../_parts/video_list_item.dart';
-import 'setting_category_alert.dart';
+import 'bunrui_blank_input_alert.dart';
 
 class CalendarVideoAlert extends ConsumerWidget {
   CalendarVideoAlert(
@@ -118,15 +117,7 @@ class CalendarVideoAlert extends ConsumerWidget {
                     onPressed: () {
                       BunruiDialog(
                         context: _context,
-                        widget: SettingCategoryAlert(
-                          category: Category(
-                            category1: category1 ?? '',
-                            category2: category2 ?? '',
-                            bunrui: (element.bunrui == 0)
-                                ? ''
-                                : element.bunrui.toString(),
-                          ),
-                        ),
+                        widget: BunruiBlankInputAlert(video: element),
                       );
                     },
                     icon: Icon(

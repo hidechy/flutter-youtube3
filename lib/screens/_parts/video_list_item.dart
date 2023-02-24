@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/video.dart';
 import '../../state/app_param/app_param_notifier.dart';
+import '../../viewmodel/category_notifier.dart';
 
 class VideoListItem extends ConsumerWidget {
   VideoListItem(
@@ -73,6 +74,8 @@ class VideoListItem extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                //
+
                 SingleChildScrollView(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,39 +129,59 @@ class VideoListItem extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
+
+                //
+
                 Text(data.title),
                 const SizedBox(height: 5),
+
+                //
+
                 Text.rich(
                   TextSpan(children: [
                     TextSpan(text: data.youtubeId),
-                    const TextSpan(text: ' / '),
-                    TextSpan(
-                      text: data.playtime,
-                      style: const TextStyle(color: Colors.yellowAccent),
-                    ),
-                  ]),
-                ),
-                const SizedBox(height: 5),
-                Container(
-                  alignment: Alignment.topRight,
-                  child: Text(data.channelTitle),
-                ),
-                const SizedBox(height: 5),
-                Container(
-                  alignment: Alignment.topRight,
-                  child: Text.rich(
-                    TextSpan(children: [
-                      TextSpan(text: getdate),
+                    if (data.playtime != 'null') ...[
                       const TextSpan(text: ' / '),
                       TextSpan(
-                        text: data.pubdate,
-                        style: const TextStyle(
-                          color: Colors.yellowAccent,
-                        ),
+                        text: data.playtime,
+                        style: const TextStyle(color: Colors.yellowAccent),
                       ),
-                    ]),
-                  ),
+                    ],
+                  ]),
                 ),
+
+                //
+
+                if (data.channelTitle != 'null') ...[
+                  const SizedBox(height: 5),
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: Text(data.channelTitle),
+                  ),
+                ],
+
+                //
+
+                if (getdate != '') ...[
+                  const SizedBox(height: 5),
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: Text.rich(
+                      TextSpan(children: [
+                        TextSpan(text: getdate),
+                        const TextSpan(text: ' / '),
+                        TextSpan(
+                          text: data.pubdate,
+                          style: const TextStyle(
+                            color: Colors.yellowAccent,
+                          ),
+                        ),
+                      ]),
+                    ),
+                  ),
+
+                  //
+                ],
               ],
             ),
           ),
@@ -169,13 +192,12 @@ class VideoListItem extends ConsumerWidget {
 
   ///
   Future<void> _openBrowser({required String youtubeId}) async {
-    // final updateVideoPlayedAtViewModel =
-    //     _ref.watch(updateVideoPlayedAtProvider.notifier);
-    //
     final url = 'https://youtu.be/$youtubeId';
 
     if (await canLaunch(url)) {
-//      updateVideoPlayedAtViewModel.updateVideoPlayedAt(youtubeId: youtubeId);
+      await _ref
+          .watch(playedAtUpdateProvider.notifier)
+          .updateVideoPlayedAt(youtubeId: youtubeId);
 
       await launch(url);
     } else {}

@@ -8,6 +8,16 @@ import '../extensions/extensions.dart';
 import '../models/category.dart';
 import '../utility/utility.dart';
 
+/*
+bigCategoryProvider       List<Category>
+smallCategoryProvider       List<Category>
+bunruiProvider        List<Category>
+
+bunruiMapProvider       Map<String, Map<String, String>>
+
+categoryInputProvider       int
+*/
+
 ////////////////////////////////////////////////
 final bigCategoryProvider =
     StateNotifierProvider.autoDispose<BigCategoryNotifier, List<Category>>(
@@ -172,6 +182,78 @@ class BunruiMapNotifier
 
       state = map;
     }).catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+
+final categoryInputProvider =
+    StateNotifierProvider.autoDispose<CategoryInputStateNotifier, int>((ref) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return CategoryInputStateNotifier(0, client, utility);
+});
+
+class CategoryInputStateNotifier extends StateNotifier<int> {
+  CategoryInputStateNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> inputBunrui(
+      {required String youtubeId,
+      required String cate1,
+      required String cate2,
+      required String bunrui}) async {
+    final uploadData = <String, dynamic>{};
+    uploadData['bunrui'] = bunrui;
+    uploadData['category1'] = cate1;
+    uploadData['category2'] = cate2;
+    uploadData['youtube_id'] = youtubeId;
+
+    await client
+        .post(path: APIPath.oneBunruiInput, body: uploadData)
+        .then((value) {})
+        .catchError((error, _) {
+      utility.showError('予期せぬエラーが発生しました');
+    });
+  }
+}
+
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+
+final playedAtUpdateProvider =
+    StateNotifierProvider.autoDispose<PlayedAtUpdateStateNotifier, int>((ref) {
+  final client = ref.read(httpClientProvider);
+
+  final utility = Utility();
+
+  return PlayedAtUpdateStateNotifier(0, client, utility);
+});
+
+class PlayedAtUpdateStateNotifier extends StateNotifier<int> {
+  PlayedAtUpdateStateNotifier(super.state, this.client, this.utility);
+
+  final HttpClient client;
+  final Utility utility;
+
+  Future<void> updateVideoPlayedAt({required String youtubeId}) async {
+    final uploadData = <String, dynamic>{};
+    uploadData['date'] = DateTime.now().yyyymmdd;
+    uploadData['youtube_id'] = youtubeId;
+
+    await client
+        .post(path: APIPath.updateVideoPlayedAt, body: uploadData)
+        .then((value) {})
+        .catchError((error, _) {
       utility.showError('予期せぬエラーが発生しました');
     });
   }
