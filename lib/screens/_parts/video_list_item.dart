@@ -195,6 +195,7 @@ class VideoListItem extends ConsumerWidget {
     final url = 'https://youtu.be/$youtubeId';
 
     if (await canLaunch(url)) {
+      /// notifier 最終呼び出し日時を記録
       await _ref
           .watch(playedAtUpdateProvider.notifier)
           .updateVideoPlayedAt(youtubeId: youtubeId);

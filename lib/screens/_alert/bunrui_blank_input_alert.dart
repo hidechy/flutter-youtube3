@@ -104,7 +104,6 @@ class BunruiBlankInputAlert extends ConsumerWidget {
                 SizedBox(
                   width: double.infinity,
                   child: TextField(
-                    keyboardType: TextInputType.number,
                     controller: tecs[0],
                     decoration: const InputDecoration(
                       filled: true,
@@ -160,7 +159,6 @@ class BunruiBlankInputAlert extends ConsumerWidget {
                 SizedBox(
                   width: double.infinity,
                   child: TextField(
-                    keyboardType: TextInputType.number,
                     controller: tecs[1],
                     decoration: const InputDecoration(
                       filled: true,
@@ -190,7 +188,6 @@ class BunruiBlankInputAlert extends ConsumerWidget {
                 SizedBox(
                   width: double.infinity,
                   child: TextField(
-                    keyboardType: TextInputType.number,
                     controller: tecs[2],
                     decoration: const InputDecoration(
                       filled: true,
@@ -226,6 +223,7 @@ class BunruiBlankInputAlert extends ConsumerWidget {
                           return;
                         }
 
+                        /// notifier カテゴリー、分類をセット
                         await ref
                             .watch(categoryInputProvider.notifier)
                             .inputBunrui(
@@ -234,6 +232,7 @@ class BunruiBlankInputAlert extends ConsumerWidget {
                                 cate2: cate2,
                                 bunrui: tecs[2].text);
 
+                        /// notifier 未分類の動画を呼び出す
                         await ref
                             .watch(blankBunruiVideoProvider.notifier)
                             .getBlankBunruiVideo();
