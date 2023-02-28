@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, cascade_invocations, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../extensions/extensions.dart';
@@ -18,16 +19,16 @@ class BunruiListAlert extends ConsumerWidget {
 
   List<String> bunruiList = [];
 
+  late BuildContext _context;
   late WidgetRef _ref;
 
   ///
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    _context = context;
     _ref = ref;
 
     makeBunruiList();
-
-    final bunruiMapState = _ref.watch(bunruiMapProvider);
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
@@ -35,87 +36,109 @@ class BunruiListAlert extends ConsumerWidget {
       backgroundColor: Colors.transparent,
       insetPadding: EdgeInsets.zero,
       content: SizedBox(
+        width: double.infinity,
         height: MediaQuery.of(context).size.height - 50,
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              Container(width: context.screenSize.width),
+          child: DefaultTextStyle(
+            style: const TextStyle(fontSize: 12),
+            child: Column(
+              children: [
+                Container(width: context.screenSize.width),
 
-              //----------//
-              if (deviceInfoState.model == 'iPhone')
-                _utility.getFileNameDebug(name: runtimeType.toString()),
-              //----------//
+                //----------//
+                if (deviceInfoState.model == 'iPhone')
+                  _utility.getFileNameDebug(name: runtimeType.toString()),
+                //----------//
 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: bunruiList.map(
-                  (value) {
-                    final category1 = bunruiMapState[value]?['category1'];
-                    final category2 = bunruiMapState[value]?['category2'];
-
-                    return Container(
-                      margin: const EdgeInsets.symmetric(vertical: 5),
-                      padding: const EdgeInsets.all(3),
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.3),
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(value),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              GestureDetector(
-                                onTap: () async {
-                                  await ref
-                                      .watch(settingCategoryProvider.notifier)
-                                      .setInputedCategory1(
-                                        value: category1 ?? '',
-                                      );
-
-                                  await ref
-                                      .watch(settingCategoryProvider.notifier)
-                                      .setInputedCategory2(
-                                        value: category2 ?? '',
-                                      );
-
-                                  tecs[0].text = category1 ?? '';
-                                  tecs[1].text = category2 ?? '';
-                                  tecs[2].text = value;
-                                  Navigator.pop(context);
-                                },
-                                child: Icon(
-                                  Icons.input,
-                                  color: Colors.white.withOpacity(0.6),
-                                ),
-                              ),
-                              DefaultTextStyle(
-                                style: const TextStyle(color: Colors.grey),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(category1 ?? ''),
-                                    Text(category2 ?? ''),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ).toList(),
-              ),
-            ],
+                displayBunruiList(),
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  ///
+  Widget displayBunruiList() {
+    final bunruiMapState = _ref.watch(bunruiMapProvider);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: bunruiList.map(
+        (value) {
+          if (value == '') {
+            return Container();
+          }
+
+          final category1 = bunruiMapState[value]?['category1'];
+          final category2 = bunruiMapState[value]?['category2'];
+
+          return Slidable(
+            startActionPane: ActionPane(
+              extentRatio: 1,
+              motion: const ScrollMotion(), // (5)
+              children: [
+                SlidableAction(
+                  onPressed: (_) {},
+                  backgroundColor: Colors.blueAccent.withOpacity(0.3),
+                  foregroundColor: Colors.white,
+                  label: category1,
+                ),
+                SlidableAction(
+                  onPressed: (_) {},
+                  backgroundColor: Colors.blueAccent.withOpacity(0.1),
+                  foregroundColor: Colors.white,
+                  label: category2,
+                ),
+              ],
+            ),
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 3),
+              width: MediaQuery.of(_context).size.width,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.3),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    value,
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      await _ref
+                          .watch(settingCategoryProvider.notifier)
+                          .setInputedCategory1(
+                            value: category1 ?? '',
+                          );
+
+                      await _ref
+                          .watch(settingCategoryProvider.notifier)
+                          .setInputedCategory2(
+                            value: category2 ?? '',
+                          );
+
+                      tecs[0].text = category1 ?? '';
+                      tecs[1].text = category2 ?? '';
+                      tecs[2].text = value;
+                      Navigator.pop(_context);
+                    },
+                    child: Icon(
+                      Icons.input,
+                      color: Colors.white.withOpacity(0.6),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ).toList(),
     );
   }
 
@@ -125,13 +148,20 @@ class BunruiListAlert extends ConsumerWidget {
 
     final bigCategoryState = _ref.watch(bigCategoryProvider);
 
+    final bl = <String>[];
     bigCategoryState.forEach((element) {
       final smallCategoryState =
           _ref.watch(smallCategoryProvider(element.category1));
 
       smallCategoryState.forEach((element2) {
-        bunruiList.add(element2.bunrui);
+        bl.add(element2.bunrui);
       });
+    });
+
+    bl.sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
+
+    bl.forEach((element) {
+      bunruiList.add(element);
     });
   }
 }
