@@ -27,7 +27,7 @@ dependencies:
   intl: ^0.18.0
   json_annotation: ^4.8.0
   table_calendar: ^3.0.9
-  url_launcher: ^6.1.6
+  url_launcher: ^6.1.10
   uuid: ^3.0.7
 
 dev_dependencies:

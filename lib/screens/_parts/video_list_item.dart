@@ -192,15 +192,14 @@ class VideoListItem extends ConsumerWidget {
 
   ///
   Future<void> _openBrowser({required String youtubeId}) async {
-    final url = 'https://youtu.be/$youtubeId';
+    /// notifier 最終呼び出し日時を記録
+    await _ref
+        .watch(playedAtUpdateProvider.notifier)
+        .updateVideoPlayedAt(youtubeId: youtubeId);
 
-    if (await canLaunch(url)) {
-      /// notifier 最終呼び出し日時を記録
-      await _ref
-          .watch(playedAtUpdateProvider.notifier)
-          .updateVideoPlayedAt(youtubeId: youtubeId);
-
-      await launch(url);
-    } else {}
+    final Uri _url = Uri.parse('https://youtu.be/$youtubeId');
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
   }
 }
