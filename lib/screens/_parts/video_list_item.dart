@@ -198,7 +198,7 @@ class VideoListItem extends ConsumerWidget {
         .updateVideoPlayedAt(youtubeId: youtubeId);
 
     final Uri _url = Uri.parse('https://youtu.be/$youtubeId');
-    if (!await launchUrl(_url)) {
+    if (!await launchUrl(_url, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $_url');
     }
   }
