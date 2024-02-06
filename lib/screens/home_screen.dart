@@ -6,7 +6,9 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_item.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_list.dart';
-import 'package:fab_circular_menu/fab_circular_menu.dart';
+import 'package:fab_circular_menu_plus/fab_circular_menu_plus.dart';
+
+//import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -119,8 +121,7 @@ class HomeScreen extends ConsumerWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => CalendarGetScreen()),
+                        MaterialPageRoute(builder: (context) => CalendarGetScreen()),
                       );
                     },
                     child: SizedBox(
@@ -137,8 +138,7 @@ class HomeScreen extends ConsumerWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) => CalendarPublishScreen()),
+                        MaterialPageRoute(builder: (context) => CalendarPublishScreen()),
                       );
                     },
                     child: SizedBox(
@@ -190,7 +190,7 @@ class HomeScreen extends ConsumerWidget {
 
         //
 
-        floatingActionButton: FabCircularMenu(
+        floatingActionButton: FabCircularMenuPlus(
           ringColor: Colors.blueAccent.withOpacity(0.3),
           fabOpenColor: Colors.blueAccent.withOpacity(0.3),
           fabCloseColor: Colors.blueAccent.withOpacity(0.3),
