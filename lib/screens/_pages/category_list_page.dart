@@ -33,9 +33,7 @@ class CategoryListPage extends ConsumerWidget {
           _utility.getBackGround(),
           SingleChildScrollView(
             child: Column(
-              children: [
-                displaySmallCategory(),
-              ],
+              children: [displaySmallCategory()],
             ),
           ),
         ],
@@ -67,10 +65,7 @@ class CategoryListPage extends ConsumerWidget {
                   padding: const EdgeInsets.all(30),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(
-                      width: 5,
-                      color: Colors.blueAccent.withOpacity(0.5),
-                    ),
+                    border: Border.all(width: 5, color: Colors.blueAccent.withOpacity(0.5)),
                     color: Colors.transparent,
                   ),
                 ),
@@ -85,10 +80,7 @@ class CategoryListPage extends ConsumerWidget {
                   padding: const EdgeInsets.all(30),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(
-                      width: 5,
-                      color: Colors.blueAccent.withOpacity(0.5),
-                    ),
+                    border: Border.all(width: 5, color: Colors.blueAccent.withOpacity(0.5)),
                     color: Colors.transparent,
                   ),
                 ),
@@ -97,20 +89,14 @@ class CategoryListPage extends ConsumerWidget {
               //
 
               Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
                 margin: const EdgeInsets.all(3),
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.3),
-                ),
+                decoration: BoxDecoration(color: Colors.black.withOpacity(0.3)),
                 width: double.infinity,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      element.category2,
-                      style: const TextStyle(fontSize: 12),
-                    ),
+                    Text(element.category2, style: const TextStyle(fontSize: 12)),
                     GestureDetector(
                       onTap: () {
                         _ref.watch(appParamProvider.notifier).setSelectedBunrui(
@@ -118,20 +104,14 @@ class CategoryListPage extends ConsumerWidget {
                               bunrui: firstBunrui[element.category2]!,
                             );
 
-                        _ref.watch(videoListProvider.notifier).getVideoList(
-                            bunrui: firstBunrui[element.category2]!);
+                        _ref.watch(videoListProvider.notifier).getVideoList(bunrui: firstBunrui[element.category2]!);
 
                         BunruiDialog(
                           context: _context,
-                          widget: VideoListAlert(
-                            category2: element.category2,
-                          ),
+                          widget: VideoListAlert(category2: element.category2),
                         );
                       },
-                      child: Icon(
-                        Icons.link,
-                        color: Colors.white.withOpacity(0.8),
-                      ),
+                      child: Icon(Icons.link, color: Colors.white.withOpacity(0.8)),
                     ),
                   ],
                 ),
@@ -148,8 +128,6 @@ class CategoryListPage extends ConsumerWidget {
 
     list.add(const SizedBox(height: 120));
 
-    return SingleChildScrollView(
-      child: Column(children: list),
-    );
+    return SingleChildScrollView(child: Column(children: list));
   }
 }

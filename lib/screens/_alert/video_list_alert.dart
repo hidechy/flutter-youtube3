@@ -48,8 +48,7 @@ class VideoListAlert extends ConsumerWidget {
               Container(width: context.screenSize.width),
 
               //----------//
-              if (deviceInfoState.model == 'iPhone')
-                _utility.getFileNameDebug(name: runtimeType.toString()),
+              if (deviceInfoState.model == 'iPhone') _utility.getFileNameDebug(name: runtimeType.toString()),
               //----------//
 
               Text(category2),
@@ -81,23 +80,17 @@ class VideoListAlert extends ConsumerWidget {
             border: Border.all(
               color: Colors.white.withOpacity(0.5),
             ),
-            color:
-                (appParamState.selectedBunrui == '$category2|${element.bunrui}')
-                    ? Colors.blueAccent.withOpacity(0.3)
-                    : null,
+            color: (appParamState.selectedBunrui == '$category2|${element.bunrui}')
+                ? Colors.blueAccent.withOpacity(0.3)
+                : null,
           ),
           child: GestureDetector(
             onTap: () {
               /// notifier 選択された分類をセット
-              _ref.watch(appParamProvider.notifier).setSelectedBunrui(
-                    category2: category2,
-                    bunrui: element.bunrui,
-                  );
+              _ref.watch(appParamProvider.notifier).setSelectedBunrui(category2: category2, bunrui: element.bunrui);
 
               /// notifier 分類に紐づく動画を取得
-              _ref
-                  .watch(videoListProvider.notifier)
-                  .getVideoList(bunrui: element.bunrui);
+              _ref.watch(videoListProvider.notifier).getVideoList(bunrui: element.bunrui);
             },
             child: Text(element.bunrui),
           ),
@@ -107,10 +100,7 @@ class VideoListAlert extends ConsumerWidget {
 
     return SizedBox(
       height: 40,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(children: list),
-      ),
+      child: SingleChildScrollView(scrollDirection: Axis.horizontal, child: Row(children: list)),
     );
   }
 
@@ -132,11 +122,7 @@ class VideoListAlert extends ConsumerWidget {
                     ? Colors.blueAccent.withOpacity(0.2)
                     : Colors.transparent,
               ),
-              child: VideoListItem(
-                data: element,
-                listAddDisplay: true,
-                linkDisplay: true,
-              ),
+              child: VideoListItem(data: element, listAddDisplay: true, linkDisplay: true),
             ),
             const Divider(color: Colors.white),
           ],
@@ -144,10 +130,7 @@ class VideoListAlert extends ConsumerWidget {
       );
     });
 
-    return SingleChildScrollView(
-      key: PageStorageKey(uuid.v1()),
-      child: Column(children: list),
-    );
+    return SingleChildScrollView(key: PageStorageKey(uuid.v1()), child: Column(children: list));
   }
 
   ///
@@ -160,16 +143,11 @@ class VideoListAlert extends ConsumerWidget {
           children: [
             ChoiceChip(
               selected: true,
-              label: const Text(
-                '選出',
-                style: TextStyle(fontSize: 12),
-              ),
+              label: const Text('選出', style: TextStyle(fontSize: 12)),
               selectedColor: Colors.blueAccent.withOpacity(0.3),
               onSelected: (bool isSelected) async {
                 /// notifier 選択された動画を選出する
-                await _ref
-                    .watch(videoManipulateProvider.notifier)
-                    .videoManipulate(flag: 'special');
+                await _ref.watch(videoManipulateProvider.notifier).videoManipulate(flag: 'special');
 
                 await videoListReload();
               },
@@ -177,16 +155,11 @@ class VideoListAlert extends ConsumerWidget {
             const SizedBox(width: 10),
             ChoiceChip(
               selected: true,
-              label: const Text(
-                '分類消去',
-                style: TextStyle(fontSize: 12),
-              ),
+              label: const Text('分類消去', style: TextStyle(fontSize: 12)),
               selectedColor: Colors.blueAccent.withOpacity(0.3),
               onSelected: (bool isSelected) async {
                 /// notifier 選択された動画の分類を消去する
-                await _ref
-                    .watch(videoManipulateProvider.notifier)
-                    .videoManipulate(flag: 'erase');
+                await _ref.watch(videoManipulateProvider.notifier).videoManipulate(flag: 'erase');
 
                 await videoListReload();
               },
@@ -194,16 +167,11 @@ class VideoListAlert extends ConsumerWidget {
             const SizedBox(width: 10),
             ChoiceChip(
               selected: true,
-              label: const Text(
-                '削除',
-                style: TextStyle(fontSize: 12),
-              ),
+              label: const Text('削除', style: TextStyle(fontSize: 12)),
               selectedColor: Colors.blueAccent.withOpacity(0.3),
               onSelected: (bool isSelected) async {
                 /// notifier 選択された動画を削除する
-                await _ref
-                    .watch(videoManipulateProvider.notifier)
-                    .videoManipulate(flag: 'delete');
+                await _ref.watch(videoManipulateProvider.notifier).videoManipulate(flag: 'delete');
 
                 await videoListReload();
               },
@@ -222,8 +190,6 @@ class VideoListAlert extends ConsumerWidget {
     await _ref.watch(appParamProvider.notifier).clearYoutubeIdList();
 
     /// notifier 選択された分類の動画を取得する
-    await _ref
-        .watch(videoListProvider.notifier)
-        .getVideoList(bunrui: appParamState.selectedBunrui.split('|')[1]);
+    await _ref.watch(videoListProvider.notifier).getVideoList(bunrui: appParamState.selectedBunrui.split('|')[1]);
   }
 }

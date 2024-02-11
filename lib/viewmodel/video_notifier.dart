@@ -22,8 +22,7 @@ videoManipulateProvider       int
 */
 
 ////////////////////////////////////////////////
-final videoListProvider =
-    StateNotifierProvider.autoDispose<VideoListNotifier, List<Video>>((ref) {
+final videoListProvider = StateNotifierProvider.autoDispose<VideoListNotifier, List<Video>>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -38,10 +37,7 @@ class VideoListNotifier extends StateNotifier<List<Video>> {
   final Utility utility;
 
   Future<void> getVideoList({required String bunrui}) async {
-    await client.post(
-      path: APIPath.getYoutubeList,
-      body: {'bunrui': bunrui},
-    ).then((value) {
+    await client.post(path: APIPath.getYoutubeList, body: {'bunrui': bunrui}).then((value) {
       final list = <Video>[];
 
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
@@ -59,9 +55,7 @@ class VideoListNotifier extends StateNotifier<List<Video>> {
 
 ////////////////////////////////////////////////
 
-final videoHistoryProvider =
-    StateNotifierProvider.autoDispose<VideoHistoryStateNotifier, List<Video>>(
-        (ref) {
+final videoHistoryProvider = StateNotifierProvider.autoDispose<VideoHistoryStateNotifier, List<Video>>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -95,14 +89,12 @@ class VideoHistoryStateNotifier extends StateNotifier<List<Video>> {
 
 ////////////////////////////////////////////////
 
-final blankBunruiVideoProvider = StateNotifierProvider.autoDispose<
-    BlankBunruiVideoStateNotifier, List<Video>>((ref) {
+final blankBunruiVideoProvider = StateNotifierProvider.autoDispose<BlankBunruiVideoStateNotifier, List<Video>>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
 
-  return BlankBunruiVideoStateNotifier([], client, utility)
-    ..getBlankBunruiVideo();
+  return BlankBunruiVideoStateNotifier([], client, utility)..getBlankBunruiVideo();
 });
 
 class BlankBunruiVideoStateNotifier extends StateNotifier<List<Video>> {
@@ -131,8 +123,7 @@ class BlankBunruiVideoStateNotifier extends StateNotifier<List<Video>> {
 /// special
 ////////////////////////////////////////////////
 
-final specialVideoProvider = StateNotifierProvider.autoDispose<
-    SpecialVideoStateNotifier, List<SpecialVideo>>((ref) {
+final specialVideoProvider = StateNotifierProvider.autoDispose<SpecialVideoStateNotifier, List<SpecialVideo>>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -152,11 +143,8 @@ class SpecialVideoStateNotifier extends StateNotifier<List<SpecialVideo>> {
       final list = <SpecialVideo>[];
       for (var i = 0; i < value['data'].length.toString().toInt(); i++) {
         final list2 = <Video>[];
-        for (var j = 0;
-            j < value['data'][i]['item'].length.toString().toInt();
-            j++) {
-          list2.add(Video.fromJson(
-              value['data'][i]['item'][j] as Map<String, dynamic>));
+        for (var j = 0; j < value['data'][i]['item'].length.toString().toInt(); j++) {
+          list2.add(Video.fromJson(value['data'][i]['item'][j] as Map<String, dynamic>));
         }
 
         list.add(
@@ -178,8 +166,7 @@ class SpecialVideoStateNotifier extends StateNotifier<List<SpecialVideo>> {
 ////////////////////////////////////////////////
 
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-final videoManipulateProvider =
-    StateNotifierProvider.autoDispose<VideoManipulateNotifier, int>((ref) {
+final videoManipulateProvider = StateNotifierProvider.autoDispose<VideoManipulateNotifier, int>((ref) {
   final client = ref.read(httpClientProvider);
 
   final utility = Utility();
@@ -190,8 +177,7 @@ final videoManipulateProvider =
 });
 
 class VideoManipulateNotifier extends StateNotifier<int> {
-  VideoManipulateNotifier(
-      super.state, this.client, this.utility, this.appParamState);
+  VideoManipulateNotifier(super.state, this.client, this.utility, this.appParamState);
 
   final HttpClient client;
   final Utility utility;

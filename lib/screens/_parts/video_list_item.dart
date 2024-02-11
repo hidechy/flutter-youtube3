@@ -87,9 +87,8 @@ class VideoListItem extends ConsumerWidget {
                             const SizedBox(height: 10),
                             if (listAddDisplay) ...[
                               GestureDetector(
-                                onTap: () {
-                                  _ref.watch(appParamProvider.notifier).setYoutubeIdList(youtubeId: data.youtubeId);
-                                },
+                                onTap: () =>
+                                    _ref.watch(appParamProvider.notifier).setYoutubeIdList(youtubeId: data.youtubeId),
                                 child: const Icon(Icons.control_point),
                               ),
                               const SizedBox(width: 20),
