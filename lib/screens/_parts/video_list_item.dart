@@ -9,11 +9,7 @@ import '../../state/app_param/app_param_notifier.dart';
 import '../../viewmodel/category_notifier.dart';
 
 class VideoListItem extends ConsumerWidget {
-  VideoListItem(
-      {super.key,
-      required this.data,
-      required this.listAddDisplay,
-      required this.linkDisplay});
+  VideoListItem({super.key, required this.data, required this.listAddDisplay, required this.linkDisplay});
 
   final Video data;
   final bool listAddDisplay;
@@ -44,10 +40,7 @@ class VideoListItem extends ConsumerWidget {
             padding: const EdgeInsets.all(60),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(
-                width: 10,
-                color: Colors.blueAccent.withOpacity(0.3),
-              ),
+              border: Border.all(width: 10, color: Colors.blueAccent.withOpacity(0.3)),
               color: Colors.transparent,
             ),
           ),
@@ -59,10 +52,7 @@ class VideoListItem extends ConsumerWidget {
             padding: const EdgeInsets.all(60),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(
-                width: 10,
-                color: Colors.blueAccent.withOpacity(0.3),
-              ),
+              border: Border.all(width: 10, color: Colors.blueAccent.withOpacity(0.3)),
               color: Colors.transparent,
             ),
           ),
@@ -84,32 +74,21 @@ class VideoListItem extends ConsumerWidget {
                         width: 180,
                         child: FadeInImage.assetNetwork(
                           placeholder: 'assets/images/no_image.png',
-                          image:
-                              'https://img.youtube.com/vi/${data.youtubeId}/mqdefault.jpg',
-                          imageErrorBuilder: (c, o, s) =>
-                              Image.asset('assets/images/no_image.png'),
+                          image: 'https://img.youtube.com/vi/${data.youtubeId}/mqdefault.jpg',
+                          imageErrorBuilder: (c, o, s) => Image.asset('assets/images/no_image.png'),
                         ),
                       ),
                       Expanded(
                         child: Column(
                           children: [
                             (data.special == '1')
-                                ? const Icon(
-                                    Icons.star,
-                                    color: Colors.greenAccent,
-                                  )
-                                : Icon(
-                                    Icons.star,
-                                    color: Colors.grey.withOpacity(0.3),
-                                  ),
+                                ? const Icon(Icons.star, color: Colors.greenAccent)
+                                : Icon(Icons.star, color: Colors.grey.withOpacity(0.3)),
                             const SizedBox(height: 10),
                             if (listAddDisplay) ...[
                               GestureDetector(
                                 onTap: () {
-                                  _ref
-                                      .watch(appParamProvider.notifier)
-                                      .setYoutubeIdList(
-                                          youtubeId: data.youtubeId);
+                                  _ref.watch(appParamProvider.notifier).setYoutubeIdList(youtubeId: data.youtubeId);
                                 },
                                 child: const Icon(Icons.control_point),
                               ),
@@ -118,8 +97,7 @@ class VideoListItem extends ConsumerWidget {
                             const SizedBox(height: 10),
                             if (linkDisplay)
                               GestureDetector(
-                                onTap: () =>
-                                    _openBrowser(youtubeId: data.youtubeId),
+                                onTap: () => _openBrowser(youtubeId: data.youtubeId),
                                 child: const Icon(Icons.link),
                               ),
                           ],
@@ -142,10 +120,7 @@ class VideoListItem extends ConsumerWidget {
                     TextSpan(text: data.youtubeId),
                     if (data.playtime != 'null') ...[
                       const TextSpan(text: ' / '),
-                      TextSpan(
-                        text: data.playtime,
-                        style: const TextStyle(color: Colors.yellowAccent),
-                      ),
+                      TextSpan(text: data.playtime, style: const TextStyle(color: Colors.yellowAccent)),
                     ],
                   ]),
                 ),
@@ -154,10 +129,7 @@ class VideoListItem extends ConsumerWidget {
 
                 if (data.channelTitle != 'null') ...[
                   const SizedBox(height: 5),
-                  Container(
-                    alignment: Alignment.topRight,
-                    child: Text(data.channelTitle),
-                  ),
+                  Container(alignment: Alignment.topRight, child: Text(data.channelTitle)),
                 ],
 
                 //
@@ -170,12 +142,7 @@ class VideoListItem extends ConsumerWidget {
                       TextSpan(children: [
                         TextSpan(text: getdate),
                         const TextSpan(text: ' / '),
-                        TextSpan(
-                          text: data.pubdate,
-                          style: const TextStyle(
-                            color: Colors.yellowAccent,
-                          ),
-                        ),
+                        TextSpan(text: data.pubdate, style: const TextStyle(color: Colors.yellowAccent)),
                       ]),
                     ),
                   ),
@@ -193,13 +160,11 @@ class VideoListItem extends ConsumerWidget {
   ///
   Future<void> _openBrowser({required String youtubeId}) async {
     /// notifier 最終呼び出し日時を記録
-    await _ref
-        .watch(playedAtUpdateProvider.notifier)
-        .updateVideoPlayedAt(youtubeId: youtubeId);
+    await _ref.watch(playedAtUpdateProvider.notifier).updateVideoPlayedAt(youtubeId: youtubeId);
 
-    final Uri _url = Uri.parse('https://youtu.be/$youtubeId');
-    if (!await launchUrl(_url, mode: LaunchMode.externalApplication)) {
-      throw Exception('Could not launch $_url');
+    final url = Uri.parse('https://youtu.be/$youtubeId');
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $url');
     }
   }
 }

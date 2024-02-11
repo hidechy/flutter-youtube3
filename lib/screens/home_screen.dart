@@ -7,8 +7,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_item.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_list.dart';
 import 'package:fab_circular_menu_plus/fab_circular_menu_plus.dart';
-
-//import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -61,11 +59,7 @@ class HomeScreen extends ConsumerWidget {
 
   ///
   void _readAndroidBuildData(AndroidDeviceInfo build) {
-    final request = DeviceInfoRequestState(
-      name: build.brand,
-      systemName: build.product,
-      model: build.model,
-    );
+    final request = DeviceInfoRequestState(name: build.brand, systemName: build.product, model: build.model);
 
     /// notifier Androidのデバイス情報をセット
     _ref.watch(deviceInfoProvider.notifier).setDeviceInfo(param: request);
@@ -73,11 +67,8 @@ class HomeScreen extends ConsumerWidget {
 
   ///
   void _readIosDeviceInfo(IosDeviceInfo data) {
-    final request = DeviceInfoRequestState(
-      name: data.name ?? '',
-      systemName: data.systemName ?? '',
-      model: data.model ?? '',
-    );
+    final request =
+        DeviceInfoRequestState(name: data.name ?? '', systemName: data.systemName ?? '', model: data.model ?? '');
 
     /// notifier iosのデバイス情報をセット
     _ref.watch(deviceInfoProvider.notifier).setDeviceInfo(param: request);
@@ -104,12 +95,7 @@ class HomeScreen extends ConsumerWidget {
           title: const Text('Video Category'),
           centerTitle: true,
           leading: GestureDetector(
-            onTap: () {
-              BunruiDialog(
-                context: context,
-                widget: BunruiBlankVideoAlert(),
-              );
-            },
+            onTap: () => BunruiDialog(context: context, widget: BunruiBlankVideoAlert()),
             child: const Icon(Icons.input),
           ),
           actions: <Widget>[
@@ -124,14 +110,9 @@ class HomeScreen extends ConsumerWidget {
                         MaterialPageRoute(builder: (context) => CalendarGetScreen()),
                       );
                     },
-                    child: SizedBox(
+                    child: const SizedBox(
                       width: 60,
-                      child: Column(
-                        children: const [
-                          Icon(Icons.calendar_today_sharp),
-                          Text('Get'),
-                        ],
-                      ),
+                      child: Column(children: [Icon(Icons.calendar_today_sharp), Text('Get')]),
                     ),
                   ),
                   GestureDetector(
@@ -141,14 +122,9 @@ class HomeScreen extends ConsumerWidget {
                         MaterialPageRoute(builder: (context) => CalendarPublishScreen()),
                       );
                     },
-                    child: SizedBox(
+                    child: const SizedBox(
                       width: 60,
-                      child: Column(
-                        children: const [
-                          Icon(Icons.calendar_today_sharp),
-                          Text('Publish'),
-                        ],
-                      ),
+                      child: Column(children: [Icon(Icons.calendar_today_sharp), Text('Publish')]),
                     ),
                   ),
                 ],
@@ -160,33 +136,22 @@ class HomeScreen extends ConsumerWidget {
             children: [
               Container(
                 decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/bg.png'),
-                    fit: BoxFit.cover,
-                  ),
+                  image: DecorationImage(image: AssetImage('assets/images/bg.png'), fit: BoxFit.cover),
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.5),
-                ),
-              ),
+              Container(decoration: BoxDecoration(color: Colors.black.withOpacity(0.5))),
             ],
           ),
           bottom: TabBar(
             isScrollable: true,
             indicatorColor: Colors.blueAccent,
-            tabs: tabs.map((TabInfo tab) {
-              return Tab(text: tab.label);
-            }).toList(),
+            tabs: tabs.map((TabInfo tab) => Tab(text: tab.label)).toList(),
           ),
         ),
 
         //
 
-        body: TabBarView(
-          children: tabs.map((tab) => tab.widget).toList(),
-        ),
+        body: TabBarView(children: tabs.map((tab) => tab.widget).toList()),
 
         //
 
@@ -206,30 +171,15 @@ class HomeScreen extends ConsumerWidget {
             ),
             IconButton(
               icon: const Icon(Icons.star),
-              onPressed: () {
-                BunruiDialog(
-                  context: context,
-                  widget: SpecialVideoAlert(),
-                );
-              },
+              onPressed: () => BunruiDialog(context: context, widget: SpecialVideoAlert()),
             ),
             IconButton(
               icon: const Icon(Icons.arrow_downward),
-              onPressed: () {
-                BunruiDialog(
-                  context: context,
-                  widget: HistoryVideoAlert(),
-                );
-              },
+              onPressed: () => BunruiDialog(context: context, widget: HistoryVideoAlert()),
             ),
             IconButton(
               icon: const Icon(Icons.search),
-              onPressed: () {
-                BunruiDialog(
-                  context: context,
-                  widget: SearchVideoAlert(),
-                );
-              },
+              onPressed: () => BunruiDialog(context: context, widget: SearchVideoAlert()),
             ),
             IconButton(
               icon: const Icon(Icons.refresh, color: Colors.yellowAccent),
