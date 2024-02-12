@@ -30,6 +30,8 @@ class VideoListAlert extends ConsumerWidget {
 
     final deviceInfoState = ref.read(deviceInfoProvider);
 
+    WidgetsBinding.instance.addPostFrameCallback((_) async {});
+
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
@@ -122,7 +124,12 @@ class VideoListAlert extends ConsumerWidget {
                     ? Colors.blueAccent.withOpacity(0.2)
                     : Colors.transparent,
               ),
+
+              ////
+
               child: VideoListItem(data: element, listAddDisplay: true, linkDisplay: true),
+
+              ////
             ),
             const Divider(color: Colors.white),
           ],
